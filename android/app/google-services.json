@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "440049847213",
+    "project_id": "sathi-startup",
+    "storage_bucket": "sathi-startup.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440049847213:android:87012e45c98d5b3713af24",
+        "android_client_info": {
+          "package_name": "com.startup_sathi.startup_saathi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeR2MF7e-7XJ5qs0KLLhi-jaNp1JO3plk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
