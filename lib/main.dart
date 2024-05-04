@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:startup_saathi/firebase_options.dart';
+import 'package:startup_saathi/src/components/theme/theme.dart';
+import 'package:startup_saathi/src/modules/auth/views/login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,24 +18,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Startup Saathi',
-      theme: ThemeData.dark(),
+      theme: AppTheme.lightThemeMode,
       debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.dark,
-      home: const HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Home Page"),
-        centerTitle: true,
-      ),
+      themeMode: ThemeMode.light,
+      home: const LoginPage(),
     );
   }
 }
