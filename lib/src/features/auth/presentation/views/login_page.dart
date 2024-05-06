@@ -5,10 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:startup_saathi/src/components/strings/app_strings.dart';
 import 'package:startup_saathi/src/components/theme/app_pallete.dart';
-import 'package:startup_saathi/src/modules/auth/components/account_rich_text.dart';
-import 'package:startup_saathi/src/modules/auth/components/custom_button.dart';
-import 'package:startup_saathi/src/modules/auth/components/custom_text_field.dart';
-import 'package:startup_saathi/src/modules/auth/components/forgot_password.dart';
+import 'package:startup_saathi/src/features/auth/presentation/components/account_rich_text.dart';
+import 'package:startup_saathi/src/features/auth/presentation/components/custom_button.dart';
+import 'package:startup_saathi/src/features/auth/presentation/components/custom_text_field.dart';
+import 'package:startup_saathi/src/features/auth/presentation/components/forgot_password.dart';
 
 class LoginPage extends StatefulHookWidget {
   const LoginPage({super.key});

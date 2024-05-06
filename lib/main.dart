@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:startup_saathi/firebase_options.dart';
 import 'package:startup_saathi/src/components/theme/theme.dart';
-import 'package:startup_saathi/src/modules/auth/views/login_page.dart';
+import 'package:startup_saathi/src/features/auth/presentation/views/login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
