@@ -1,27 +1,11 @@
+import 'package:fpdart/fpdart.dart';
+import 'package:startup_saathi/src/features/auth/data/network/firebase_error_handler.dart';
+import 'package:startup_saathi/src/features/auth/domain/entities/user_entity.dart';
+
 abstract interface class AuthRepository {
-  Future<void> logInWithEmailAndPassword(
-    String email,
-    String password,
-  );
-
-  Future<void> logOut();
-
-  Future<void> registerWithEmailAndPassword(
-    String email,
-    String password,
-    String phoneNumber,
-  );
-
-  Future<bool> isUserLoggedIn();
-
-  Future<String> getCurrentUId();
-
-  Future<void> saveUserDetails(
-    String firstName,
-    String lastName,
-    String city,
-    String college,
-  );
-
-  Future<void> forgotPassword(String email);
+  Future<Either<AuthError, UserEntity>> registerWithEmailAndPassword({
+    required String email,
+    required String password,
+    required String phoneNumber,
+  });
 }

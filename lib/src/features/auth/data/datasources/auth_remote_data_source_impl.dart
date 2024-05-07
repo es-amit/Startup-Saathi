@@ -1,76 +1,35 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:startup_saathi/src/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:startup_saathi/src/features/auth/data/model/user_model.dart';
+import 'package:startup_saathi/src/features/auth/data/network/firebase_error_handler.dart';
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  final FirebaseFirestore fireStore;
-  final FirebaseAuth auth;
+  final FirebaseAuth firebaseAuth;
 
   AuthRemoteDataSourceImpl(
-    this.fireStore,
-    this.auth,
+    this.firebaseAuth,
   );
   @override
-  Future<void> forgotPassword({required String email}) async {
-    await auth.sendPasswordResetEmail(email: email);
-  }
-
-  @override
-  Future<String> getCurrentUId() async {
-    return auth.currentUser!.uid;
-  }
-
-  @override
-  Future<bool> isUserLoggedIn() async {
-    return auth.currentUser?.uid != null;
-  }
-
-  @override
-  Future<void> logInWithEmailAndPassword({
-    required String email,
-    required String password,
-  }) async {
-    await auth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-  }
-
-  @override
-  Future<void> logOut() async {
-    await auth.signOut();
-  }
-
-  @override
-  Future<void> registerWithEmailAndPassword({
+  Future<UserModel> registerWithEmailAndPassword({
     required String email,
     required String password,
     required String phoneNumber,
   }) async {
-    await auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    try {
+      final userCredential = await firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-    await fireStore.collection('users').doc(auth.currentUser!.uid).set({
-      'email': email,
-      'uid': auth.currentUser!.uid,
-      'phoneNumber': phoneNumber,
-    });
-  }
-
-  @override
-  Future<void> saveUserDetails({
-    required String firstName,
-    required String lastName,
-    required String city,
-    required String college,
-  }) async {
-    await fireStore.collection('users').doc(auth.currentUser!.uid).set({
-      'firstName': firstName,
-      'lastName': lastName,
-      'city': city,
-      'college': college,
-    });
+      if (userCredential.user == null) {
+        throw const AuthErrorUnknown();
+      }
+      return UserModel(
+        email: email,
+        phoneNumber: phoneNumber,
+      );
+    } on FirebaseAuthException catch (e) {
+      throw authErrorMapping[e.code.toLowerCase().trim()] as Object;
+    }
   }
 }

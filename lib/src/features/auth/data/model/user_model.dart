@@ -1,18 +1,19 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// ignore_for_file: must_be_immutable
+
 import 'package:startup_saathi/src/components/enums/skills.dart';
 import 'package:startup_saathi/src/features/auth/domain/entities/user_entity.dart';
 
 class UserModel extends UserEntity {
-  const UserModel({
-    required super.firstName,
-    required super.lastName,
+  UserModel({
+    super.firstName,
+    super.lastName,
     required super.email,
     required super.phoneNumber,
-    required super.city,
-    required super.college,
-    required super.skills,
-    required super.lookingFor,
-    required super.whoYouAre,
+    super.city,
+    super.college,
+    super.skills,
+    super.lookingFor,
+    super.whoYouAre,
     super.businessStage,
   });
 
@@ -24,30 +25,14 @@ class UserModel extends UserEntity {
       phoneNumber: json['phoneNumber'],
       city: json['city'],
       college: json['college'],
-      skills: json['skills'].map<Skills>((e) => Skills.values[e]).toList(),
+      skills: List<Skills>.from(json['skills']),
       lookingFor: json['lookingFor'],
       whoYouAre: json['whoYouAre'],
       businessStage: json['businessStage'],
     );
   }
 
-  factory UserModel.fromSnapshot(DocumentSnapshot snapshot) {
-    return UserModel(
-      firstName: snapshot.get('firstName'),
-      lastName: snapshot.get('lastName'),
-      email: snapshot.get('email'),
-      phoneNumber: snapshot.get('phoneNumber'),
-      city: snapshot.get('city'),
-      college: snapshot.get('college'),
-      skills:
-          snapshot.get('skills').map<Skills>((e) => Skills.values[e]).toList(),
-      lookingFor: snapshot.get('lookingFor'),
-      whoYouAre: snapshot.get('whoYouAre'),
-      businessStage: snapshot.get('businessStage'),
-    );
-  }
-
-  Map<String, dynamic> toDocument() {
+  Map<String, dynamic> toJson() {
     return {
       'firstName': firstName,
       'lastName': lastName,
@@ -55,7 +40,7 @@ class UserModel extends UserEntity {
       'phoneNumber': phoneNumber,
       'city': city,
       'college': college,
-      'skills': skills.map((e) => e.index).toList(),
+      'skills': skills,
       'lookingFor': lookingFor,
       'whoYouAre': whoYouAre,
       'businessStage': businessStage,
