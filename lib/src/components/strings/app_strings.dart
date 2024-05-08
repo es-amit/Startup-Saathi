@@ -17,4 +17,5 @@ class AppStrings {
   static const String registerNow = 'Register Now';
   static const String firstName = 'First Name';
   static const String lastName = 'Last Name';
+  static const String enterYourPersonalDetails = 'Enter your personal details';
 }

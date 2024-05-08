@@ -1,15 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:startup_saathi/firebase_options.dart';
+import 'package:startup_saathi/init_dependencies.dart';
 import 'package:startup_saathi/src/components/cubit/internet_cubit.dart';
 import 'package:startup_saathi/src/components/theme/theme.dart';
-import 'package:startup_saathi/src/features/auth/data/datasources/auth_remote_data_source_impl.dart';
-import 'package:startup_saathi/src/features/auth/data/repositories/auth_reporitory_impl.dart';
-import 'package:startup_saathi/src/features/auth/domain/use_cases/register_use_case.dart';
 import 'package:startup_saathi/src/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:startup_saathi/src/features/auth/presentation/views/register_page.dart';
 
@@ -18,6 +14,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await initDependencies();
   runApp(const MyApp());
 }
 
@@ -33,16 +30,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
         BlocProvider(
-          create: (_) => AuthBloc(
-            registerUseCase: RegisterUseCase(
-              AuthRepositoryImpl(
-                AuthRemoteDataSourceImpl(
-                  FirebaseAuth.instance,
-                  FirebaseFirestore.instance,
-                ),
-              ),
-            ),
-          ),
+          create: (_) => serviceLocator<AuthBloc>(),
         ),
       ],
       child: MaterialApp(

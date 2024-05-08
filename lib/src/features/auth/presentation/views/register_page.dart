@@ -9,7 +9,7 @@ import 'package:startup_saathi/src/features/auth/presentation/bloc/auth_bloc.dar
 import 'package:startup_saathi/src/features/auth/presentation/components/account_rich_text.dart';
 import 'package:startup_saathi/src/features/auth/presentation/components/custom_button.dart';
 import 'package:startup_saathi/src/features/auth/presentation/components/custom_text_field.dart';
-import 'package:startup_saathi/src/features/auth/presentation/components/messenger.dart';
+import 'package:startup_saathi/src/features/auth/presentation/components/auth_error_dialog.dart';
 
 class RegisterPage extends StatefulHookWidget {
   const RegisterPage({super.key});
@@ -46,7 +46,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       .show(context: context, text: 'Loading...');
                 } else if (state is AuthFailure) {
                   LoadingScreen.instance().hide();
-                  showSnackbar(context, state.error.dialogText);
+                  showAuthError(
+                    authError: state.error,
+                    context: context,
+                  );
                 } else {
                   LoadingScreen.instance().hide();
                   showSnackbar(context, 'User Registered Successfully');

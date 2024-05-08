@@ -51,6 +51,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }) async {
     try {
       await firebaseFirestore.collection('users').doc(uid).set({
+        'uid': uid,
         'phoneNumber': phoneNumber,
       });
     } catch (e) {
