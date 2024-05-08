@@ -15,10 +15,8 @@ final class AuthSuccess extends AuthState {
 }
 
 final class AuthFailure extends AuthState {
-  final String dialogText;
-  final String dialogMessage;
+  final AuthError error;
   const AuthFailure(
-    this.dialogText,
-    this.dialogMessage,
+    this.error,
   );
 }

@@ -12,7 +12,7 @@ const Map<String, AuthError> authErrorMapping = {
 };
 
 @immutable
-abstract class AuthError {
+abstract class AuthError implements Exception {
   final String dialogTitle;
   final String dialogText;
 
