@@ -1,5 +1,3 @@
-// import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:startup_saathi/src/features/auth/data/datasources/auth_remote_data_source.dart';
@@ -38,8 +36,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         phoneNumber: phoneNumber,
       );
     } on FirebaseAuthException catch (e) {
-      // log(e.toString());
-      // log(authErrorMapping[e.code.toLowerCase().trim()].toString());
       throw authErrorMapping[e.code.toLowerCase().trim()] as Object;
     }
   }

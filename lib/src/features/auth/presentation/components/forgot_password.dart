@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:startup_saathi/src/components/strings/app_strings.dart';
-import 'package:startup_saathi/src/components/theme/app_pallete.dart';
+import 'package:startup_saathi/src/components/constants/strings/app_strings.dart';
+import 'package:startup_saathi/src/components/constants/theme/app_pallete.dart';
 
 class ForgotPassword extends StatelessWidget {
   final VoidCallback onTap;

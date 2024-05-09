@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:startup_saathi/src/components/cubit/internet_cubit.dart';
 import 'package:startup_saathi/src/components/cubit/internet_state.dart';
-import 'package:startup_saathi/src/components/strings/app_strings.dart';
-import 'package:startup_saathi/src/components/theme/app_pallete.dart';
+import 'package:startup_saathi/src/components/constants/strings/app_strings.dart';
+import 'package:startup_saathi/src/components/constants/theme/app_pallete.dart';
 import 'package:startup_saathi/src/features/auth/presentation/components/account_rich_text.dart';
 import 'package:startup_saathi/src/features/auth/presentation/components/custom_button.dart';
 import 'package:startup_saathi/src/features/auth/presentation/components/custom_text_field.dart';
@@ -30,7 +30,6 @@ class _LoginPageState extends State<LoginPage> {
       SystemUiMode.manual,
       overlays: [
         SystemUiOverlay.top,
-        // SystemUiOverlay.bottom,
       ],
     );
     return Scaffold(
@@ -39,100 +38,103 @@ class _LoginPageState extends State<LoginPage> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: BlocBuilder<InternetCubit, InternetState>(
-                builder: (context, state) {
-              if (state is InternetDisconnected) {
-                return const Center(
-                  child: Text('No Internet Connection'),
-                );
-              }
-              return Form(
-                key: formKey,
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 80,
-                    ),
-                    // logo
-                    const Icon(
-                      Icons.person,
-                      size: 100,
-                    ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-
-                    // welcome
-
-                    const Text(
-                      AppStrings.welcomeBackYouHaveBeenMissed,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: AppPallete.fontColor,
-                        fontWeight: FontWeight.w600,
+              builder: (context, state) {
+                if (state is InternetDisconnected) {
+                  log(state.toString());
+                  // checkInternetConnectionDialog(context);
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 80,
                       ),
-                    ),
+                      // logo
+                      const Icon(
+                        Icons.person,
+                        size: 100,
+                      ),
+                      const SizedBox(
+                        height: 50,
+                      ),
 
-                    const SizedBox(
-                      height: 25,
-                    ),
+                      // welcome
 
-                    // email
-                    CustomTextField(
-                      hintText: AppStrings.emailHintText,
-                      controller: emailController,
-                      prefixIcon: const Icon(Icons.email),
-                    ),
+                      const Text(
+                        AppStrings.welcomeBackYouHaveBeenMissed,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: AppPallete.fontColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
 
-                    const SizedBox(
-                      height: 10,
-                    ),
+                      const SizedBox(
+                        height: 25,
+                      ),
 
-                    // password
-                    CustomTextField(
-                      hintText: AppStrings.passwordHintText,
-                      controller: paswordController,
-                      isObscureText: true,
-                      prefixIcon: const Icon(Icons.lock),
-                    ),
+                      // email
+                      CustomTextField(
+                        hintText: AppStrings.emailHintText,
+                        controller: emailController,
+                        prefixIcon: const Icon(Icons.email),
+                      ),
 
-                    const SizedBox(
-                      height: 10,
-                    ),
+                      const SizedBox(
+                        height: 10,
+                      ),
 
-                    // forgot password
-                    ForgotPassword(
-                      onTap: () {
-                        log('object');
-                      },
-                    ),
-                    const SizedBox(
-                      height: 25,
-                    ),
+                      // password
+                      CustomTextField(
+                        hintText: AppStrings.passwordHintText,
+                        controller: paswordController,
+                        isObscureText: true,
+                        prefixIcon: const Icon(Icons.lock),
+                      ),
 
-                    CustomButton(
-                      text: AppStrings.signIn,
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          log('valid');
-                        }
-                      },
-                    ),
+                      const SizedBox(
+                        height: 10,
+                      ),
 
-                    // not a member?
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    AccountRichText(
-                      member: AppStrings.notAMember,
-                      text: AppStrings.registerNow,
-                      onTap: () {
-                        // Navigator.of(context).pushNamed('/register');
-                      },
-                    )
-                  ],
-                ),
-              );
-            }),
+                      // forgot password
+                      ForgotPassword(
+                        onTap: () {
+                          log('object');
+                        },
+                      ),
+                      const SizedBox(
+                        height: 25,
+                      ),
+
+                      CustomButton(
+                        text: AppStrings.signIn,
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            log('valid');
+                          }
+                        },
+                      ),
+
+                      // not a member?
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      AccountRichText(
+                        member: AppStrings.notAMember,
+                        text: AppStrings.registerNow,
+                        onTap: () {
+                          // Navigator.of(context).pushNamed('/register');
+                        },
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ),

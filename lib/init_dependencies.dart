@@ -22,6 +22,14 @@ Future<void> initDependencies() async {
 
 void _initAuth() {
   serviceLocator
+    // ..registerLazySingleton(
+    //   () => InternetConnectionChecker(),
+    // )
+    // ..registerFactory(
+    //   () => InternetCubit(
+    //     connectionChecker: serviceLocator(),
+    //   ),
+    // )
     ..registerFactory<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(
         serviceLocator(),

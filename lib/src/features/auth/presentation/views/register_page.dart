@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:startup_saathi/src/components/loading/loading_screen.dart';
-import 'package:startup_saathi/src/components/strings/app_strings.dart';
-import 'package:startup_saathi/src/components/theme/app_pallete.dart';
+import 'package:startup_saathi/src/components/constants/loading/loading_screen.dart';
+import 'package:startup_saathi/src/components/constants/strings/app_strings.dart';
+import 'package:startup_saathi/src/components/constants/theme/app_pallete.dart';
+import 'package:startup_saathi/src/components/routes/routes_name.dart';
 import 'package:startup_saathi/src/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:startup_saathi/src/features/auth/presentation/components/account_rich_text.dart';
 import 'package:startup_saathi/src/features/auth/presentation/components/custom_button.dart';
@@ -21,13 +22,21 @@ class RegisterPage extends StatefulHookWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final formKey = GlobalKey<FormState>();
 
+  void goToLogin() {
+    Navigator.of(context).pushNamed(RoutesName.loginScreen);
+  }
+
+  void goToPersonalDetails() {
+    Navigator.of(context).pushNamedAndRemoveUntil(
+        RoutesName.personalDetailsScreen, (route) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
     final TextEditingController emailController = useTextEditingController();
     final TextEditingController paswordController = useTextEditingController();
     final TextEditingController phoneController = useTextEditingController();
-    // final TextEditingController confirmPasswordController =
-    useTextEditingController();
+    // final TextEditingController confirmPasswordController =useTextEditingController();
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.edgeToEdge,
       overlays: [
@@ -53,6 +62,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 } else {
                   LoadingScreen.instance().hide();
                   showSnackbar(context, 'User Registered Successfully');
+                  goToPersonalDetails();
                 }
               },
               child: Form(

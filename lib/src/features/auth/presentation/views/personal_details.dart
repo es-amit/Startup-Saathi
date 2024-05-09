@@ -1,11 +1,12 @@
 import 'dart:developer';
 
+import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:startup_saathi/src/components/strings/app_strings.dart';
-import 'package:startup_saathi/src/components/theme/app_pallete.dart';
-import 'package:startup_saathi/src/features/auth/presentation/components/custom_button.dart';
+import 'package:startup_saathi/src/components/constants/strings/app_strings.dart';
+import 'package:startup_saathi/src/components/constants/theme/app_pallete.dart';
+import 'package:startup_saathi/src/features/auth/presentation/components/custom_flat_button.dart';
 import 'package:startup_saathi/src/features/auth/presentation/components/custom_text_field.dart';
 
 class PersonalDetailsPage extends StatefulHookWidget {
@@ -17,6 +18,10 @@ class PersonalDetailsPage extends StatefulHookWidget {
 
 class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
   final formKey = GlobalKey<FormState>();
+  String? selectedCountry;
+  String? selectedState;
+  String? selectedCity;
+
   @override
   Widget build(BuildContext context) {
     final firstNameController = useTextEditingController();
@@ -85,17 +90,46 @@ class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
                   const SizedBox(
                     height: 10,
                   ),
+
+                  SizedBox(
+                    child: CSCPicker(
+                      onCountryChanged: (country) {
+                        setState(() {
+                          selectedCountry = country;
+                        });
+                      },
+                      onStateChanged: (state) {
+                        setState(() {
+                          selectedState = state;
+                        });
+                      },
+                      onCityChanged: (city) {
+                        setState(() {
+                          selectedCity = city;
+                        });
+                      },
+                    ),
+                  ),
+
                   const SizedBox(
                     height: 25,
                   ),
 
-                  CustomButton(
-                    text: AppStrings.signIn,
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        log('valid');
-                      }
-                    },
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CustomTextButton(
+                        label: AppStrings.next,
+                        onPressed: () {
+                          if (formKey.currentState!.validate() &&
+                              selectedCountry != null &&
+                              selectedState != null &&
+                              selectedCity != null) {
+                            log('valid');
+                          }
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),

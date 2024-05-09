@@ -5,9 +5,10 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:startup_saathi/firebase_options.dart';
 import 'package:startup_saathi/init_dependencies.dart';
 import 'package:startup_saathi/src/components/cubit/internet_cubit.dart';
-import 'package:startup_saathi/src/components/theme/theme.dart';
+import 'package:startup_saathi/src/components/constants/theme/theme.dart';
+import 'package:startup_saathi/src/components/routes/routes.dart';
+import 'package:startup_saathi/src/components/routes/routes_name.dart';
 import 'package:startup_saathi/src/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:startup_saathi/src/features/auth/presentation/views/register_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,11 +25,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<InternetCubit>(
-          create: (_) => InternetCubit(
-            connectionChecker: InternetConnectionChecker(),
-          ),
-        ),
+        BlocProvider<InternetCubit>(create: (_) {
+          final internetCubit =
+              InternetCubit(connectionChecker: InternetConnectionChecker());
+          internetCubit.monitorInternetConnection();
+          return internetCubit;
+        }),
         BlocProvider(
           create: (_) => serviceLocator<AuthBloc>(),
         ),
@@ -38,7 +40,8 @@ class MyApp extends StatelessWidget {
         theme: AppTheme.lightThemeMode,
         debugShowCheckedModeBanner: false,
         themeMode: ThemeMode.light,
-        home: const RegisterPage(),
+        initialRoute: RoutesName.registerScreen,
+        onGenerateRoute: Routes.generateRoute,
       ),
     );
   }

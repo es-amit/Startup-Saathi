@@ -18,4 +18,8 @@ class AppStrings {
   static const String firstName = 'First Name';
   static const String lastName = 'Last Name';
   static const String enterYourPersonalDetails = 'Enter your personal details';
+  static const String next = "Next";
+  static const String noInternetConnection = 'No Internet Connection';
+  static const String checkIntenet =
+      'Please check your internet connection and try again';
 }

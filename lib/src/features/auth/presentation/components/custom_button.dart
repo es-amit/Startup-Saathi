@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:startup_saathi/src/components/theme/app_pallete.dart';
+import 'package:startup_saathi/src/components/constants/theme/app_pallete.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
