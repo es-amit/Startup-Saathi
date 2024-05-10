@@ -20,13 +20,3 @@ final class AuthFailure extends AuthState {
     this.error,
   );
 }
-
-final class AuthStoredSucess extends AuthState {}
-
-final class AuthStoreFailure extends AuthState {
-  final String message;
-
-  const AuthStoreFailure({
-    required this.message,
-  });
-}

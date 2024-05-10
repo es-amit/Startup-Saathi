@@ -6,7 +6,6 @@ import 'package:startup_saathi/src/features/auth/data/datasources/auth_remote_da
 import 'package:startup_saathi/src/features/auth/data/repositories/auth_reporitory_impl.dart';
 import 'package:startup_saathi/src/features/auth/domain/repositories/auth_repository.dart';
 import 'package:startup_saathi/src/features/auth/domain/use_cases/register_use_case.dart';
-import 'package:startup_saathi/src/features/auth/domain/use_cases/store_info_use_case.dart';
 import 'package:startup_saathi/src/features/auth/presentation/bloc/auth_bloc.dart';
 
 final serviceLocator = GetIt.instance;
@@ -47,15 +46,9 @@ void _initAuth() {
         serviceLocator(),
       ),
     )
-    ..registerFactory(
-      () => StoreInfoUseCase(
-        serviceLocator(),
-      ),
-    )
     ..registerLazySingleton(
       () => AuthBloc(
         registerUseCase: serviceLocator(),
-        storeInfoUseCase: serviceLocator(),
       ),
     );
 }

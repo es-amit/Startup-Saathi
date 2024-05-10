@@ -8,10 +8,9 @@ import 'package:startup_saathi/src/components/constants/theme/app_pallete.dart';
 import 'package:startup_saathi/src/components/routes/routes_name.dart';
 import 'package:startup_saathi/src/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:startup_saathi/src/features/auth/presentation/components/account_rich_text.dart';
+import 'package:startup_saathi/src/features/auth/presentation/components/auth_error_dialog.dart';
 import 'package:startup_saathi/src/features/auth/presentation/components/custom_button.dart';
 import 'package:startup_saathi/src/features/auth/presentation/components/custom_text_field.dart';
-import 'package:startup_saathi/src/features/auth/presentation/components/auth_error_dialog.dart';
-import 'package:startup_saathi/src/features/auth/provider/user_provider.dart';
 
 class RegisterPage extends StatefulHookWidget {
   const RegisterPage({super.key});
@@ -22,14 +21,13 @@ class RegisterPage extends StatefulHookWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final formKey = GlobalKey<FormState>();
-  final userProvider = UserProvider();
   void goToLogin() {
     Navigator.of(context).pushNamed(RoutesName.loginScreen);
   }
 
-  void goToPersonalDetails() {
-    Navigator.of(context).pushNamedAndRemoveUntil(
-        RoutesName.personalDetailsScreen, (route) => false);
+  void goToHomeScreen() {
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(RoutesName.homeScreen, (route) => false);
   }
 
   @override
@@ -62,8 +60,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   );
                 } else {
                   LoadingScreen.instance().hide();
-                  showSnackbar(context, 'User Registered Successfully');
-                  goToPersonalDetails();
+                  showSnackbar(context, 'Account Create Successfully!');
+                  goToHomeScreen();
                 }
               },
               child: Form(
@@ -135,10 +133,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       text: AppStrings.register,
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          userProvider.updateUserInRegister(
-                            emailController.text,
-                            phoneController.text,
-                          );
                           context.read<AuthBloc>().add(
                                 AuthRegister(
                                   email: emailController.text,

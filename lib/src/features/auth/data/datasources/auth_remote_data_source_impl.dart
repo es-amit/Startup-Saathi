@@ -32,7 +32,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         phoneNumber: phoneNumber,
         uid: userCredential.user!.uid,
       );
-
+      await storeUserDetails(user: userModel);
       return userModel;
     } on FirebaseAuthException catch (e) {
       throw authErrorMapping[e.code.toLowerCase().trim()] as Object;
@@ -40,13 +40,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> storeUserInfo({
-    required UserModel userModel,
-  }) async {
+  Future<void> storeUserDetails({required UserModel user}) async {
     try {
-      await firebaseFirestore.collection('users').doc(userModel.uid).set(
-            userModel.toJson(),
-          );
+      await firebaseFirestore.collection('users').doc(user.uid).set({
+        'uid': user.uid,
+        'email': user.email,
+        'phoneNumber': user.phoneNumber,
+      });
     } catch (e) {
       throw const AuthErrorUnknown();
     }
