@@ -7,8 +7,9 @@ import 'package:startup_saathi/init_dependencies.dart';
 import 'package:startup_saathi/src/components/cubit/internet_cubit.dart';
 import 'package:startup_saathi/src/components/constants/theme/theme.dart';
 import 'package:startup_saathi/src/components/routes/routes.dart';
-import 'package:startup_saathi/src/components/routes/routes_name.dart';
 import 'package:startup_saathi/src/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:startup_saathi/src/features/auth/presentation/views/login_page.dart';
+import 'package:startup_saathi/src/features/home/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
           return internetCubit;
         }),
         BlocProvider(
-          create: (_) => serviceLocator<AuthBloc>(),
+          create: (_) => serviceLocator<AuthBloc>()..add(AuthCheckRequested()),
         ),
       ],
       child: MaterialApp(
@@ -40,7 +41,16 @@ class MyApp extends StatelessWidget {
         theme: AppTheme.lightThemeMode,
         debugShowCheckedModeBanner: false,
         themeMode: ThemeMode.light,
-        initialRoute: RoutesName.loginScreen,
+        home: BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, state) {
+            if (state is Authenticated) {
+              return const HomePage();
+            } else if (state is UnAuthenticated) {
+              return const LoginPage();
+            }
+            return const Center(child: CircularProgressIndicator());
+          },
+        ),
         onGenerateRoute: Routes.generateRoute,
       ),
     );

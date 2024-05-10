@@ -67,4 +67,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       throw authErrorMapping[e.code.toLowerCase().trim()] as Object;
     }
   }
+
+  @override
+  Future<User?> isLoggedIn() async {
+    return firebaseAuth.currentUser;
+  }
 }

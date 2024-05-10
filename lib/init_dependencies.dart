@@ -5,6 +5,7 @@ import 'package:startup_saathi/src/features/auth/data/datasources/auth_remote_da
 import 'package:startup_saathi/src/features/auth/data/datasources/auth_remote_data_source_impl.dart';
 import 'package:startup_saathi/src/features/auth/data/repositories/auth_reporitory_impl.dart';
 import 'package:startup_saathi/src/features/auth/domain/repositories/auth_repository.dart';
+import 'package:startup_saathi/src/features/auth/domain/use_cases/is_logged_in_use_case.dart';
 import 'package:startup_saathi/src/features/auth/domain/use_cases/login_use_case.dart';
 import 'package:startup_saathi/src/features/auth/domain/use_cases/register_use_case.dart';
 import 'package:startup_saathi/src/features/auth/presentation/bloc/auth_bloc.dart';
@@ -52,10 +53,16 @@ void _initAuth() {
         serviceLocator(),
       ),
     )
+    ..registerFactory(
+      () => IsLoggedInUseCase(
+        serviceLocator(),
+      ),
+    )
     ..registerLazySingleton(
       () => AuthBloc(
         registerUseCase: serviceLocator(),
         loginUseCase: serviceLocator(),
+        isLoggedInUseCase: serviceLocator(),
       ),
     );
 }

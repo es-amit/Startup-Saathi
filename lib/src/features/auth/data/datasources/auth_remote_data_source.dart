@@ -16,4 +16,6 @@ abstract interface class AuthRemoteDataSource {
     required String email,
     required String password,
   });
+
+  Future<User?> isLoggedIn();
 }

@@ -25,3 +25,7 @@ final class AuthLoginSuccess extends AuthState {
   final User user;
   const AuthLoginSuccess(this.user);
 }
+
+final class Authenticated extends AuthState {}
+
+final class UnAuthenticated extends AuthState {}
