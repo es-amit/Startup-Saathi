@@ -14,3 +14,11 @@ final class AuthRegister extends AuthEvent {
     required this.phoneNumber,
   });
 }
+
+final class AuthStoreInfo extends AuthEvent {
+  final UserModel userModel;
+
+  AuthStoreInfo({
+    required this.userModel,
+  });
+}

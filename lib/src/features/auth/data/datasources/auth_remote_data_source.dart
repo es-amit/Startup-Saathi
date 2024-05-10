@@ -7,8 +7,7 @@ abstract interface class AuthRemoteDataSource {
     required String phoneNumber,
   });
 
-  Future<void> storePhoneNumber({
-    required String uid,
-    required String phoneNumber,
+  Future<void> storeUserInfo({
+    required UserModel userModel,
   });
 }

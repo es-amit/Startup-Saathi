@@ -5,6 +5,7 @@ import 'package:startup_saathi/src/features/auth/domain/entities/user_entity.dar
 
 class UserModel extends UserEntity {
   UserModel({
+    super.uid,
     super.firstName,
     super.lastName,
     required super.email,
@@ -19,6 +20,7 @@ class UserModel extends UserEntity {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
+      uid: json['uid'],
       firstName: json['firstName'],
       lastName: json['lastName'],
       email: json['email'],
@@ -34,6 +36,7 @@ class UserModel extends UserEntity {
 
   Map<String, dynamic> toJson() {
     return {
+      'uid': uid,
       'firstName': firstName,
       'lastName': lastName,
       'email': email,

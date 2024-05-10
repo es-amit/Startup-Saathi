@@ -11,6 +11,7 @@ import 'package:startup_saathi/src/features/auth/presentation/components/account
 import 'package:startup_saathi/src/features/auth/presentation/components/custom_button.dart';
 import 'package:startup_saathi/src/features/auth/presentation/components/custom_text_field.dart';
 import 'package:startup_saathi/src/features/auth/presentation/components/auth_error_dialog.dart';
+import 'package:startup_saathi/src/features/auth/provider/user_provider.dart';
 
 class RegisterPage extends StatefulHookWidget {
   const RegisterPage({super.key});
@@ -21,7 +22,7 @@ class RegisterPage extends StatefulHookWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final formKey = GlobalKey<FormState>();
-
+  final userProvider = UserProvider();
   void goToLogin() {
     Navigator.of(context).pushNamed(RoutesName.loginScreen);
   }
@@ -126,18 +127,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       isObscureText: true,
                     ),
 
-                    // const SizedBox(
-                    //   height: 10,
-                    // ),
-
-                    // // confirm password
-                    // CustomTextField(
-                    //   hintText: AppStrings.confirmPasswordController,
-                    //   controller: confirmPasswordController,
-                    //   prefixIcon: const Icon(Icons.lock),
-                    //   isObscureText: true,
-                    // ),
-
                     const SizedBox(
                       height: 25,
                     ),
@@ -146,6 +135,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       text: AppStrings.register,
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
+                          userProvider.updateUserInRegister(
+                            emailController.text,
+                            phoneController.text,
+                          );
                           context.read<AuthBloc>().add(
                                 AuthRegister(
                                   email: emailController.text,

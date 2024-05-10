@@ -6,10 +6,11 @@ import 'package:startup_saathi/src/components/enums/skills.dart';
 import 'package:startup_saathi/src/features/auth/domain/entities/business_stage.dart';
 
 class UserEntity extends Equatable {
+  String? uid;
   String? firstName;
   String? lastName;
-  final String email;
-  final String phoneNumber;
+  String email;
+  String phoneNumber;
   String? city;
   String? college;
   List<Skills>? skills;
@@ -18,6 +19,7 @@ class UserEntity extends Equatable {
   BusinessStage? businessStage;
 
   UserEntity({
+    this.uid,
     this.firstName,
     this.lastName,
     required this.email,
@@ -32,6 +34,7 @@ class UserEntity extends Equatable {
 
   @override
   List<Object?> get props => [
+        uid,
         firstName,
         lastName,
         email,

@@ -1,8 +1,7 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:startup_saathi/src/features/auth/data/network/firebase_error_handler.dart';
 
-abstract interface class UseCase<SuccessType, Params> {
-  Future<Either<AuthError, SuccessType>> call(Params params);
+abstract interface class UseCase<SuccessType, Params, ErrorType> {
+  Future<Either<ErrorType, SuccessType>> call(Params params);
 }
 
 class NoParams {}

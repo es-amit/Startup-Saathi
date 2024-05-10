@@ -22,4 +22,12 @@ class AppStrings {
   static const String noInternetConnection = 'No Internet Connection';
   static const String checkIntenet =
       'Please check your internet connection and try again';
+
+  static const String lookingFor = 'What are you Looking for?';
+  static const String lookingForSubTitle =
+      'We will help you find the best match for you';
+
+  static const String coFounder = 'Co-Founders';
+  static const String startups = 'Startups';
+  static const String whoAreYou = 'Who are you?';
 }

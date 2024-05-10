@@ -4,7 +4,8 @@ import 'package:startup_saathi/src/features/auth/data/network/firebase_error_han
 import 'package:startup_saathi/src/features/auth/domain/entities/user_entity.dart';
 import 'package:startup_saathi/src/features/auth/domain/repositories/auth_repository.dart';
 
-class RegisterUseCase implements UseCase<UserEntity, RegisterParams> {
+class RegisterUseCase
+    implements UseCase<UserEntity, RegisterParams, AuthError> {
   final AuthRepository authRepository;
 
   RegisterUseCase(
