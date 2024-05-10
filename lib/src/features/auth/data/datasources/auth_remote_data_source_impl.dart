@@ -51,4 +51,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       throw const AuthErrorUnknown();
     }
   }
+
+  @override
+  Future<User> loginWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final userCredential = await firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return userCredential.user!;
+    } on FirebaseAuthException catch (e) {
+      throw authErrorMapping[e.code.toLowerCase().trim()] as Object;
+    }
+  }
 }

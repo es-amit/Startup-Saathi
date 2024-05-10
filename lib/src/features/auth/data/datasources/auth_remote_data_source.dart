@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:startup_saathi/src/features/auth/data/model/user_model.dart';
 
 abstract interface class AuthRemoteDataSource {
@@ -9,5 +10,10 @@ abstract interface class AuthRemoteDataSource {
 
   Future<void> storeUserDetails({
     required UserModel user,
+  });
+
+  Future<User> loginWithEmailAndPassword({
+    required String email,
+    required String password,
   });
 }

@@ -14,3 +14,13 @@ final class AuthRegister extends AuthEvent {
     required this.phoneNumber,
   });
 }
+
+final class AuthLogin extends AuthEvent {
+  final String email;
+  final String password;
+
+  AuthLogin({
+    required this.email,
+    required this.password,
+  });
+}

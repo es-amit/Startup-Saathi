@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         theme: AppTheme.lightThemeMode,
         debugShowCheckedModeBanner: false,
         themeMode: ThemeMode.light,
-        initialRoute: RoutesName.registerScreen,
+        initialRoute: RoutesName.loginScreen,
         onGenerateRoute: Routes.generateRoute,
       ),
     );
