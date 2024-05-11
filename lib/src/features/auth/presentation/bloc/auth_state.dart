@@ -29,3 +29,7 @@ final class AuthLoginSuccess extends AuthState {
 final class Authenticated extends AuthState {}
 
 final class UnAuthenticated extends AuthState {}
+
+final class LogOutSuccessState extends AuthState {}
+
+final class LogOutFailureSate extends AuthState {}

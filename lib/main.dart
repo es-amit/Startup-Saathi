@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
             } else if (state is UnAuthenticated) {
               return const LoginPage();
             }
-            return const Center(child: CircularProgressIndicator());
+            return const LoginPage();
           },
         ),
         onGenerateRoute: Routes.generateRoute,

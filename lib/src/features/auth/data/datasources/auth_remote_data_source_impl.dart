@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:startup_saathi/src/features/auth/data/datasources/auth_remote_data_source.dart';
@@ -64,6 +66,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
       return userCredential.user!;
     } on FirebaseAuthException catch (e) {
+      log(e.code);
       throw authErrorMapping[e.code.toLowerCase().trim()] as Object;
     }
   }
@@ -71,5 +74,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<User?> isLoggedIn() async {
     return firebaseAuth.currentUser;
+  }
+
+  @override
+  Future<void> logOut() async {
+    try {
+      await firebaseAuth.signOut();
+    } on FirebaseAuthException catch (e) {
+      throw authErrorMapping[e.code.toLowerCase().trim()] as Object;
+    }
   }
 }

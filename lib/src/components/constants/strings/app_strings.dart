@@ -30,4 +30,9 @@ class AppStrings {
   static const String coFounder = 'Co-Founders';
   static const String startups = 'Startups';
   static const String whoAreYou = 'Who are you?';
+  static const String logOut = 'Log Out';
+  static const String areYouSureThatYouWantToLogOutOfTheApp =
+      'Are you sure that you want to log out of the app?';
+
+  static const String cancel = 'Cancel';
 }

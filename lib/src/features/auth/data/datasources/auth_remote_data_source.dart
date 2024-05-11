@@ -18,4 +18,6 @@ abstract interface class AuthRemoteDataSource {
   });
 
   Future<User?> isLoggedIn();
+
+  Future<void> logOut();
 }
