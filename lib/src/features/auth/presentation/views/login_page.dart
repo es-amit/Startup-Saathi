@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void login(String email, String password) {
     context.read<AuthBloc>().add(
-          AuthLogin(
+          AuthEventLogin(
             email: email,
             password: password,
           ),
@@ -46,107 +46,99 @@ class _LoginPageState extends State<LoginPage> {
         SystemUiOverlay.top,
       ],
     );
-    return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
-        if (state is Authenticated) {
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil(RoutesName.homeScreen, (route) => false);
-        }
-      },
-      child: Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 80,
-                    ),
-                    // logo
-                    const Icon(
-                      Icons.person,
-                      size: 100,
-                    ),
-                    const SizedBox(
-                      height: 50,
-                    ),
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            child: Form(
+              key: formKey,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 80,
+                  ),
+                  // logo
+                  const Icon(
+                    Icons.person,
+                    size: 100,
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
 
-                    // welcome
+                  // welcome
 
-                    const Text(
-                      AppStrings.welcomeBackYouHaveBeenMissed,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: AppPallete.fontColor,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  const Text(
+                    AppStrings.welcomeBackYouHaveBeenMissed,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: AppPallete.fontColor,
+                      fontWeight: FontWeight.w600,
                     ),
+                  ),
 
-                    const SizedBox(
-                      height: 25,
-                    ),
+                  const SizedBox(
+                    height: 25,
+                  ),
 
-                    // email
-                    CustomTextField(
-                      hintText: AppStrings.emailHintText,
-                      controller: emailController,
-                      prefixIcon: const Icon(Icons.email),
-                    ),
+                  // email
+                  CustomTextField(
+                    hintText: AppStrings.emailHintText,
+                    controller: emailController,
+                    prefixIcon: const Icon(Icons.email),
+                  ),
 
-                    const SizedBox(
-                      height: 10,
-                    ),
+                  const SizedBox(
+                    height: 10,
+                  ),
 
-                    // password
-                    CustomTextField(
-                      hintText: AppStrings.passwordHintText,
-                      controller: passwordController,
-                      isObscureText: true,
-                      prefixIcon: const Icon(Icons.lock),
-                    ),
+                  // password
+                  CustomTextField(
+                    hintText: AppStrings.passwordHintText,
+                    controller: passwordController,
+                    isObscureText: true,
+                    prefixIcon: const Icon(Icons.lock),
+                  ),
 
-                    const SizedBox(
-                      height: 10,
-                    ),
+                  const SizedBox(
+                    height: 10,
+                  ),
 
-                    // forgot password
-                    ForgotPassword(
-                      onTap: () {
-                        log('object');
-                      },
-                    ),
-                    const SizedBox(
-                      height: 25,
-                    ),
+                  // forgot password
+                  ForgotPassword(
+                    onTap: () {
+                      log('object');
+                    },
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
 
-                    CustomButton(
-                      text: AppStrings.signIn,
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          login(
-                            emailController.text,
-                            passwordController.text,
-                          );
-                        }
-                      },
-                    ),
+                  CustomButton(
+                    text: AppStrings.signIn,
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        login(
+                          emailController.text,
+                          passwordController.text,
+                        );
+                      }
+                    },
+                  ),
 
-                    // not a member?
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    AccountRichText(
-                      member: AppStrings.notAMember,
-                      text: AppStrings.registerNow,
-                      onTap: () {
-                        goToRegisterScreen();
-                      },
-                    )
-                  ],
-                ),
+                  // not a member?
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  AccountRichText(
+                    member: AppStrings.notAMember,
+                    text: AppStrings.registerNow,
+                    onTap: () {
+                      goToRegisterScreen();
+                    },
+                  )
+                ],
               ),
             ),
           ),

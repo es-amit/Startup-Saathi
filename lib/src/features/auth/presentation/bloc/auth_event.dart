@@ -1,30 +1,37 @@
 part of 'auth_bloc.dart';
 
 @immutable
-sealed class AuthEvent {}
+abstract class AuthEvent {}
 
-final class AuthRegister extends AuthEvent {
+@immutable
+class AuthEventInitialize implements AuthEvent {
+  const AuthEventInitialize();
+}
+
+class AuthEventLogOut implements AuthEvent {
+  const AuthEventLogOut();
+}
+
+@immutable
+class AuthEventLogin implements AuthEvent {
+  final String email;
+  final String password;
+
+  const AuthEventLogin({
+    required this.email,
+    required this.password,
+  });
+}
+
+@immutable
+class AuthEventRegister implements AuthEvent {
   final String email;
   final String password;
   final String phoneNumber;
 
-  AuthRegister({
+  const AuthEventRegister({
     required this.email,
     required this.password,
     required this.phoneNumber,
   });
 }
-
-final class AuthLogin extends AuthEvent {
-  final String email;
-  final String password;
-
-  AuthLogin({
-    required this.email,
-    required this.password,
-  });
-}
-
-final class AuthCheckRequested extends AuthEvent {}
-
-final class AuthLogOut extends AuthEvent {}

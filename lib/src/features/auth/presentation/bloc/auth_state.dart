@@ -1,35 +1,53 @@
 part of 'auth_bloc.dart';
 
 @immutable
-sealed class AuthState {
-  const AuthState();
+abstract class AuthState {
+  final bool isLoading;
+  final AuthError? authError;
+
+  const AuthState({
+    required this.isLoading,
+    this.authError,
+  });
 }
 
-final class AuthInitial extends AuthState {}
-
-final class AuthLoading extends AuthState {}
-
-final class AuthSuccess extends AuthState {
-  final UserEntity user;
-  const AuthSuccess(this.user);
-}
-
-final class AuthFailure extends AuthState {
-  final AuthError error;
-  const AuthFailure(
-    this.error,
-  );
-}
-
-final class AuthLoginSuccess extends AuthState {
+@immutable
+class AuthStateLoggedIn extends AuthState {
   final User user;
-  const AuthLoginSuccess(this.user);
+
+  const AuthStateLoggedIn({
+    required super.isLoading,
+    super.authError,
+    required this.user,
+  });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is AuthStateLoggedIn && other.user == user;
+  }
+
+  @override
+  int get hashCode => Object.hashAll([
+        user.uid,
+      ]);
 }
 
-final class Authenticated extends AuthState {}
+@immutable
+class AuthStateLoggedOut extends AuthState {
+  const AuthStateLoggedOut({
+    required super.isLoading,
+    super.authError,
+  });
+}
 
-final class UnAuthenticated extends AuthState {}
-
-final class LogOutSuccessState extends AuthState {}
-
-final class LogOutFailureSate extends AuthState {}
+extension GetUser on AuthState {
+  User? get user {
+    final cls = this;
+    if (cls is AuthStateLoggedIn) {
+      return cls.user;
+    } else {
+      return null;
+    }
+  }
+}

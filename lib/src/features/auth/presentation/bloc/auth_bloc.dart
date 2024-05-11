@@ -1,98 +1,117 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:startup_saathi/init_dependencies.dart';
 import 'package:startup_saathi/src/components/usecase/usecase.dart';
 import 'package:startup_saathi/src/features/auth/data/network/firebase_error_handler.dart';
-import 'package:startup_saathi/src/features/auth/domain/entities/user_entity.dart';
 import 'package:startup_saathi/src/features/auth/domain/use_cases/is_logged_in_use_case.dart';
 import 'package:startup_saathi/src/features/auth/domain/use_cases/log_out_use_case.dart';
 import 'package:startup_saathi/src/features/auth/domain/use_cases/login_use_case.dart';
-import 'package:startup_saathi/src/features/auth/domain/use_cases/register_use_case.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final RegisterUseCase registerUseCase;
   final LoginUseCase loginUseCase;
   final IsLoggedInUseCase isLoggedInUseCase;
   final LogOutUseCase logOutUseCase;
-  AuthBloc({
-    required this.registerUseCase,
-    required this.loginUseCase,
-    required this.isLoggedInUseCase,
-    required this.logOutUseCase,
-  }) : super(AuthInitial()) {
-    // on<AuthEvent>((_, emit) => emit(AuthLoading()));
-
-    on<AuthCheckRequested>(_checkUserLoggedIn);
-    on<AuthRegister>(_onAuthRegister);
-    on<AuthLogin>(_onAuthLogin);
-    on<AuthLogOut>(_onAuthLogOut);
+  AuthBloc(
+    this.loginUseCase,
+    this.isLoggedInUseCase,
+    this.logOutUseCase,
+  ) : super(
+          const AuthStateLoggedOut(
+            isLoading: false,
+          ),
+        ) {
+    on<AuthEventLogin>(_onAuthLogin);
+    on<AuthEventInitialize>(_onAuthEventInitialize);
+    on<AuthEventLogOut>(_onAuthEventLogOut);
   }
 
-  void _onAuthLogOut(
-    AuthLogOut event,
+  void _onAuthEventLogOut(
+    AuthEventLogOut event,
     Emitter<AuthState> emit,
   ) async {
-    final res = await logOutUseCase.call(NoParams());
+    emit(
+      const AuthStateLoggedOut(
+        isLoading: true,
+      ),
+    );
+    final res = await logOutUseCase(NoParams());
     res.fold(
-      (l) => emit(LogOutFailureSate()),
-      (r) => emit(LogOutSuccessState()),
+      (l) => emit(const AuthStateLoggedOut(
+        isLoading: false,
+      )),
+      (r) => emit(
+        const AuthStateLoggedOut(
+          isLoading: false,
+        ),
+      ),
     );
   }
 
-  void _checkUserLoggedIn(
-    AuthCheckRequested event,
+  void _onAuthEventInitialize(
+    AuthEventInitialize event,
     Emitter<AuthState> emit,
   ) async {
-    final res = await isLoggedInUseCase.call(NoParams());
-    res.fold(
-      (l) => emit(UnAuthenticated()),
-      (r) => emit(Authenticated()),
-    );
-  }
-
-  void _onAuthRegister(
-    AuthRegister event,
-    Emitter<AuthState> emit,
-  ) async {
-    try {
-      emit(AuthLoading());
-      final res = await registerUseCase(RegisterParams(
-        email: event.email,
-        password: event.password,
-        phoneNumber: event.phoneNumber,
-      ));
-      res.fold(
-        (failure) {
-          emit(AuthFailure(failure));
-        },
-        (user) => emit(AuthSuccess(user)),
+    final user = serviceLocator<FirebaseAuth>().currentUser;
+    if (user != null) {
+      emit(
+        AuthStateLoggedIn(
+          isLoading: false,
+          user: user,
+        ),
       );
-    } on AuthError catch (e) {
-      emit(AuthFailure(e));
+    } else {
+      emit(
+        const AuthStateLoggedOut(
+          isLoading: false,
+        ),
+      );
     }
   }
 
   void _onAuthLogin(
-    AuthLogin event,
+    AuthEventLogin event,
     Emitter<AuthState> emit,
   ) async {
+    emit(
+      const AuthStateLoggedOut(
+        isLoading: true,
+      ),
+    );
+
     try {
-      emit(AuthLoading());
-      final res = await loginUseCase(LoginParams(
-        email: event.email,
-        password: event.password,
-      ));
-      res.fold(
-        (failure) {
-          emit(AuthFailure(failure));
-        },
-        (user) => emit(AuthLoginSuccess(user)),
+      final email = event.email;
+      final password = event.password;
+      final res = await loginUseCase(
+        LoginParams(
+          email: email,
+          password: password,
+        ),
       );
-    } on AuthError catch (e) {
-      emit(AuthFailure(e));
+      res.fold(
+        (error) => emit(
+          AuthStateLoggedOut(
+            isLoading: false,
+            authError: error,
+          ),
+        ),
+        (user) => emit(
+          AuthStateLoggedIn(
+            isLoading: false,
+            user: user,
+          ),
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      emit(
+        AuthStateLoggedOut(
+          isLoading: false,
+          authError: AuthError.from(e),
+        ),
+      );
     }
   }
 }

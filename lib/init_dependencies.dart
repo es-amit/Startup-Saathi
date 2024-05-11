@@ -66,10 +66,9 @@ void _initAuth() {
     )
     ..registerLazySingleton(
       () => AuthBloc(
-        logOutUseCase: serviceLocator(),
-        registerUseCase: serviceLocator(),
-        loginUseCase: serviceLocator(),
-        isLoggedInUseCase: serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
       ),
     );
 }
