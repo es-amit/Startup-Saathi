@@ -37,7 +37,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       await storeUserDetails(user: userModel);
       return userModel;
     } on FirebaseAuthException catch (e) {
-      throw authErrorMapping[e.code.toLowerCase().trim()] as Object;
+      throw (authErrorMapping[e.code.toLowerCase().trim()] as AuthError);
     }
   }
 
@@ -64,10 +64,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         email: email,
         password: password,
       );
-      return userCredential.user!;
+      final user = userCredential.user;
+
+      if (user == null) {
+        throw const AuthErrorUserNotFound();
+      }
+      return user;
     } on FirebaseAuthException catch (e) {
       log(e.code);
-      throw authErrorMapping[e.code.toLowerCase().trim()] as Object;
+      throw authErrorMapping[e.code.toLowerCase().trim()] as AuthError;
     }
   }
 

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:startup_saathi/src/features/auth/data/datasources/auth_remote_data_source.dart';
@@ -37,15 +39,21 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
   }) async {
     try {
+      log('message');
       final user = await authRemoteDataSource.loginWithEmailAndPassword(
         email: email,
         password: password,
       );
+      log(user.toString());
       return right(user);
     } on FirebaseAuthException catch (e) {
+      log(e.toString());
       return left(
-        authErrorMapping[e.code.toLowerCase().trim()] as AuthError,
+        authErrorMapping[e.code] as AuthError,
       );
+    } catch (e) {
+      log(e.toString());
+      return left(e as AuthError);
     }
   }
 

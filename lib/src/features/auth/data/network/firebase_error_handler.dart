@@ -9,6 +9,8 @@ const Map<String, AuthError> authErrorMapping = {
   'email-already-in-use': AuthErrorEmailAlreadyInUse(),
   'requires-recent-login': AuthErrorRequiresRecentLogin(),
   'no-current-user': AuthErrorNoCurrentUser(),
+  'invalid-credential': AuthErrorInvalidCredential(),
+  'wrong-password': AuthErrorWrongPassword(),
 };
 
 @immutable
@@ -111,5 +113,23 @@ class AuthErrorEmailAlreadyInUse extends AuthError {
       : super(
           dialogTitle: 'Email already in use',
           dialogText: 'Please choose another email to register with!',
+        );
+}
+
+@immutable
+class AuthErrorInvalidCredential extends AuthError {
+  const AuthErrorInvalidCredential()
+      : super(
+          dialogTitle: 'User not found',
+          dialogText: 'Please register your account first!',
+        );
+}
+
+@immutable
+class AuthErrorWrongPassword extends AuthError {
+  const AuthErrorWrongPassword()
+      : super(
+          dialogTitle: 'Wrong password',
+          dialogText: 'Please check your password and try again!',
         );
 }
