@@ -24,6 +24,16 @@ class AuthEventLogin implements AuthEvent {
 }
 
 @immutable
+class AuthEventGoToRegistration implements AuthEvent {
+  const AuthEventGoToRegistration();
+}
+
+@immutable
+class AuthEventGoToLogin implements AuthEvent {
+  const AuthEventGoToLogin();
+}
+
+@immutable
 class AuthEventRegister implements AuthEvent {
   final String email;
   final String password;

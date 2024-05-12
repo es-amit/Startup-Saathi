@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:startup_saathi/src/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:startup_saathi/src/features/auth/data/network/firebase_error_handler.dart';
-import 'package:startup_saathi/src/features/auth/domain/entities/user_entity.dart';
 import 'package:startup_saathi/src/features/auth/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -14,7 +13,7 @@ class AuthRepositoryImpl implements AuthRepository {
     this.authRemoteDataSource,
   );
   @override
-  Future<Either<AuthError, UserEntity>> registerWithEmailAndPassword({
+  Future<Either<AuthError, User>> registerWithEmailAndPassword({
     required String email,
     required String password,
     required String phoneNumber,
@@ -30,6 +29,9 @@ class AuthRepositoryImpl implements AuthRepository {
       return left(
         authErrorMapping[e.code.toLowerCase().trim()] as AuthError,
       );
+    } catch (e) {
+      log(e.toString());
+      return left(e as AuthError);
     }
   }
 

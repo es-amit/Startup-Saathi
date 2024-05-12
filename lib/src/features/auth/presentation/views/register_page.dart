@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:startup_saathi/src/components/constants/strings/app_strings.dart';
 import 'package:startup_saathi/src/components/constants/theme/app_pallete.dart';
-import 'package:startup_saathi/src/components/routes/routes_name.dart';
+import 'package:startup_saathi/src/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:startup_saathi/src/features/auth/presentation/components/account_rich_text.dart';
 import 'package:startup_saathi/src/features/auth/presentation/components/custom_button.dart';
 import 'package:startup_saathi/src/features/auth/presentation/components/custom_text_field.dart';
@@ -18,12 +19,7 @@ class RegisterPage extends StatefulHookWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final formKey = GlobalKey<FormState>();
   void goToLogin() {
-    Navigator.of(context).pushNamed(RoutesName.loginScreen);
-  }
-
-  void goToHomeScreen() {
-    Navigator.of(context)
-        .pushNamedAndRemoveUntil(RoutesName.homeScreen, (route) => false);
+    context.read<AuthBloc>().add(const AuthEventGoToLogin());
   }
 
   @override
@@ -31,7 +27,6 @@ class _RegisterPageState extends State<RegisterPage> {
     final TextEditingController emailController = useTextEditingController();
     final TextEditingController paswordController = useTextEditingController();
     final TextEditingController phoneController = useTextEditingController();
-    // final TextEditingController confirmPasswordController =useTextEditingController();
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.edgeToEdge,
       overlays: [
@@ -111,7 +106,15 @@ class _RegisterPageState extends State<RegisterPage> {
                   CustomButton(
                     text: AppStrings.register,
                     onPressed: () {
-                      if (formKey.currentState!.validate()) {}
+                      if (formKey.currentState!.validate()) {
+                        context.read<AuthBloc>().add(
+                              AuthEventRegister(
+                                email: emailController.text,
+                                password: paswordController.text,
+                                phoneNumber: phoneController.text,
+                              ),
+                            );
+                      }
                     },
                   ),
 

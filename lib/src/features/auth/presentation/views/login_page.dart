@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:startup_saathi/src/components/constants/strings/app_strings.dart';
 import 'package:startup_saathi/src/components/constants/theme/app_pallete.dart';
-import 'package:startup_saathi/src/components/routes/routes_name.dart';
 import 'package:startup_saathi/src/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:startup_saathi/src/features/auth/presentation/components/account_rich_text.dart';
 import 'package:startup_saathi/src/features/auth/presentation/components/custom_button.dart';
@@ -33,7 +32,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void goToRegisterScreen() {
-    Navigator.of(context).pushNamed(RoutesName.registerScreen);
+    context.read<AuthBloc>().add(
+          const AuthEventGoToRegistration(),
+        );
   }
 
   @override

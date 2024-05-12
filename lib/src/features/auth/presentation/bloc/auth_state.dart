@@ -12,6 +12,14 @@ abstract class AuthState {
 }
 
 @immutable
+class AuthStateIsInRegistrationView extends AuthState {
+  const AuthStateIsInRegistrationView({
+    required super.isLoading,
+    super.authError,
+  });
+}
+
+@immutable
 class AuthStateLoggedIn extends AuthState {
   final User user;
 

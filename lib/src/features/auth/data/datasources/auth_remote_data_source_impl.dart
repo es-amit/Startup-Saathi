@@ -15,7 +15,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     this.firebaseFirestore,
   );
   @override
-  Future<UserModel> registerWithEmailAndPassword({
+  Future<User> registerWithEmailAndPassword({
     required String email,
     required String password,
     required String phoneNumber,
@@ -35,7 +35,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         uid: userCredential.user!.uid,
       );
       await storeUserDetails(user: userModel);
-      return userModel;
+      return userCredential.user!;
     } on FirebaseAuthException catch (e) {
       throw (authErrorMapping[e.code.toLowerCase().trim()] as AuthError);
     }

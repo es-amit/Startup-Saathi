@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +11,7 @@ import 'package:startup_saathi/src/components/routes/routes.dart';
 import 'package:startup_saathi/src/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:startup_saathi/src/features/auth/presentation/components/auth_error_dialog.dart';
 import 'package:startup_saathi/src/features/auth/presentation/views/login_page.dart';
+import 'package:startup_saathi/src/features/auth/presentation/views/register_page.dart';
 import 'package:startup_saathi/src/features/home/home_page.dart';
 
 void main() async {
@@ -53,17 +56,19 @@ class MyApp extends StatelessWidget {
             }
           },
           builder: (context, state) {
+            log(state.toString());
             if (state is AuthStateLoggedOut) {
               return const LoginPage();
             } else if (state is AuthStateLoggedIn) {
               return const HomePage();
-            } else {
-              return const Scaffold(
-                body: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
+            } else if (state is AuthStateIsInRegistrationView) {
+              return const RegisterPage();
             }
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
           },
         ),
       ),

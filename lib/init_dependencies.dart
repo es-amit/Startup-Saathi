@@ -69,6 +69,7 @@ void _initAuth() {
         serviceLocator(),
         serviceLocator(),
         serviceLocator(),
+        serviceLocator(),
       ),
     );
 }
