@@ -1,4 +1,0 @@
-enum Post {
-  cofounder,
-  startup,
-}
