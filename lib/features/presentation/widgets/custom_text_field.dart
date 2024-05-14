@@ -9,7 +9,6 @@ class CustomTextField extends StatefulWidget {
   final String? labelText;
   final String? helperText;
   final FormFieldSetter<String>? onSaved;
-  final FormFieldValidator<String>? validator;
   final ValueChanged<String>? onFieldSubmitted;
   final TextInputType? inputType;
   const CustomTextField({
@@ -21,7 +20,6 @@ class CustomTextField extends StatefulWidget {
     this.labelText,
     this.helperText,
     this.onSaved,
-    this.validator,
     this.onFieldSubmitted,
     this.inputType,
   });
@@ -40,7 +38,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
       key: widget.fieldKey,
       obscureText: widget.isPasswordField == true ? _obscureText : false,
       onSaved: widget.onSaved,
-      validator: widget.validator,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return '${widget.hintText} is required';
+        }
+        return null;
+      },
       onFieldSubmitted: widget.onFieldSubmitted,
       decoration: InputDecoration(
         hintText: widget.hintText,

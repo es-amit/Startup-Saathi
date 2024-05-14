@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:startup_saathi/constants.dart';
-import 'features/presentation/page/credential/register_page.dart';
-import 'features/presentation/page/home/home_page.dart';
+import 'package:startup_saathi/core/constants.dart';
+import '../../features/presentation/page/credential/register_page.dart';
+import '../../features/presentation/page/home/home_page.dart';
 
-import 'features/presentation/page/credential/log_in_page.dart';
+import '../../features/presentation/page/credential/log_in_page.dart';
 
 class OnGenerateRoute {
   static Route<dynamic>? route(RouteSettings settings) {

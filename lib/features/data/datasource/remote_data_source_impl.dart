@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:startup_saathi/constants.dart';
+import 'package:startup_saathi/core/constants.dart';
 import 'package:startup_saathi/features/data/datasource/errors/firebase_error_handler.dart';
 import 'package:startup_saathi/features/data/datasource/remote_data_source.dart';
 import 'package:startup_saathi/features/data/model/user_model.dart';
