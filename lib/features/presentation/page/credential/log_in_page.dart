@@ -53,7 +53,12 @@ class _LogInPageState extends State<LogInPage> {
             context.read<AuthCubit>().loggedIn();
           } else if (credentialState is CredentialFailure) {
             LoadingScreen.instance().hide();
-            showSnackbar(context, 'Invalid Email and Password!');
+
+            showAuthError(
+              context: context,
+              dialogTitle: credentialState.errorTitle,
+              dialogText: credentialState.errorMessage,
+            );
           }
         },
         builder: (context, credentialState) {

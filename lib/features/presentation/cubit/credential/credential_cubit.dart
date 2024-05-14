@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:startup_saathi/features/data/datasource/errors/firebase_error_handler.dart';
 import 'package:startup_saathi/features/domain/entities/user_entity.dart';
 import 'package:startup_saathi/features/domain/usecase/user/log_in_user_usecase.dart';
 import 'package:startup_saathi/features/domain/usecase/user/register_user_usecase.dart';
@@ -32,10 +33,11 @@ class CredentialCubit extends Cubit<CredentialState> {
       emit(CredentialSuccess());
     } on SocketException catch (_) {
       emit(const CredentialFailure());
-    } catch (error) {
-      emit(const CredentialFailure(
-        errorTitle: 'Error hai bhai',
-        errorMessage: 'bhot khtra hai bhai',
+    } catch (e) {
+      final error = e as AuthError;
+      emit(CredentialFailure(
+        errorTitle: error.dialogTitle,
+        errorMessage: error.dialogText,
       ));
     }
   }
@@ -50,9 +52,9 @@ class CredentialCubit extends Cubit<CredentialState> {
       );
       emit(CredentialSuccess());
     } on SocketException catch (_) {
-      emit(CredentialFailure());
+      emit(const CredentialFailure());
     } catch (_) {
-      emit(CredentialFailure());
+      emit(const CredentialFailure());
     }
   }
 }
