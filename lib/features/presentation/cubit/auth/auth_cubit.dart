@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
@@ -22,8 +24,10 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> appStarted(BuildContext context) async {
     try {
       bool isSignIn = await signInUseCase.call();
+      log(isSignIn.toString());
       if (isSignIn) {
         final uid = await getCurrentUidUseCase.call();
+        log("Authenticated $uid");
         emit(Authenticated(uid: uid));
       } else {
         emit(UnAuthenticated());

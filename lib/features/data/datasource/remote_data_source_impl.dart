@@ -48,6 +48,7 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
 
   @override
   Future<bool> isSignIn() async {
+    log('isSignin remote datasource');
     return firebaseAuth.currentUser != null;
   }
 
@@ -89,6 +90,7 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
 
   @override
   Future<String> getCurrentUid() async {
+    log('getCurrentUid remote datasource');
     return firebaseAuth.currentUser!.uid;
   }
 
