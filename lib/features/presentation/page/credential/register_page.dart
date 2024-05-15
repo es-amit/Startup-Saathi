@@ -132,7 +132,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               CustomTextField(
                 controller: _phoneController,
-                hintText: AppStrings.passwordHintText,
+                hintText: AppStrings.phoneHintText,
                 inputType: TextInputType.phone,
               ),
               const SizedBox(
@@ -150,7 +150,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 text: AppStrings.register,
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    // _registerUser();
+                    _registerUser();
                   }
                 },
               ),

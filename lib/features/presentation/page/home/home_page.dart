@@ -1,10 +1,18 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final String? uid;
+  const HomePage({super.key, this.uid});
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(uid!),
+      ),
+      body: const Center(
+        child: Text('Home Page'),
+      ),
+    );
   }
 }

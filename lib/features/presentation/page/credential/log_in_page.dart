@@ -8,7 +8,7 @@ import 'package:startup_saathi/core/strings/app_strings.dart';
 import 'package:startup_saathi/core/theme/app_pallete.dart';
 import 'package:startup_saathi/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:startup_saathi/features/presentation/cubit/credential/credential_cubit.dart';
-import 'package:startup_saathi/features/presentation/page/home/home_page.dart';
+import 'package:startup_saathi/features/presentation/page/main_screen/main_screen.dart';
 import 'package:startup_saathi/features/presentation/widgets/account_rich_text.dart';
 import 'package:startup_saathi/features/presentation/widgets/custom_button.dart';
 import 'package:startup_saathi/features/presentation/widgets/custom_text_field.dart';
@@ -72,7 +72,7 @@ class _LogInPageState extends State<LogInPage> {
                 builder: (context, authState) {
                   log(authState.toString());
                   if (authState is Authenticated) {
-                    return const HomePage();
+                    return MainScreen(uid: authState.uid);
                   } else {
                     return _bodyWidget();
                   }

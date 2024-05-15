@@ -14,4 +14,5 @@ abstract interface class FirebaseRemoteDataSource {
 
   // User
   Future<String> getCurrentUid();
+  Future<void> updateUser(UserEntity user, String? uid, bool update);
 }

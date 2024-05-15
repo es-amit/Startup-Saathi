@@ -54,14 +54,10 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
   @override
   Future<void> logInUser(UserEntity user) async {
     try {
-      if (user.email!.isNotEmpty && user.password!.isNotEmpty) {
-        await firebaseAuth.signInWithEmailAndPassword(
-          email: user.email!,
-          password: user.password!,
-        );
-      } else {
-        log('fields cannot be empty');
-      }
+      await firebaseAuth.signInWithEmailAndPassword(
+        email: user.email!,
+        password: user.password!,
+      );
     } on FirebaseAuthException catch (e) {
       // handling error
       log(e.code);
@@ -82,13 +78,12 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
               email: user.email!, password: user.password!)
           .then((currentUser) async {
         if (currentUser.user?.uid != null) {
-          if (user.imageFile != null) {
-            // TODO: upload image to storage
-          }
+          await updateUser(user, currentUser.user?.uid, false);
         }
       });
     } on FirebaseAuthException catch (e) {
       log(e.code);
+      throw authErrorMapping[e.code.toLowerCase().trim()] as AuthError;
     }
   }
 
@@ -109,5 +104,35 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
         (await uploadTask.whenComplete(() {})).ref.getDownloadURL();
 
     return await imageUrl;
+  }
+
+  @override
+  Future<void> updateUser(UserEntity user, String? uid, bool update) async {
+    final userCollection = firebaseFirestore.collection(FirebaseConst.users);
+    Map<String, dynamic> userInformation = {};
+
+    if (user.email != "" && user.email != null) {
+      userInformation['email'] = user.email;
+    }
+
+    if (user.phoneNumber != "" && user.phoneNumber != null) {
+      userInformation['phoneNumber'] = user.phoneNumber;
+    }
+
+    if (user.firstName != "" && user.firstName != null) {
+      userInformation['firstName'] = user.firstName;
+    }
+
+    if (user.lastName != "" && user.lastName != null) {
+      userInformation['lastName'] = user.lastName;
+    }
+
+    if (uid != "" && uid != null) userInformation['uid'] = uid;
+
+    if (update) {
+      userCollection.doc(uid).update(userInformation);
+    } else {
+      userCollection.doc(uid).set(userInformation);
+    }
   }
 }

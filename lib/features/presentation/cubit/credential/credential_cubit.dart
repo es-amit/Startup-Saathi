@@ -53,8 +53,12 @@ class CredentialCubit extends Cubit<CredentialState> {
       emit(CredentialSuccess());
     } on SocketException catch (_) {
       emit(const CredentialFailure());
-    } catch (_) {
-      emit(const CredentialFailure());
+    } catch (e) {
+      final error = e as AuthError;
+      emit(CredentialFailure(
+        errorTitle: error.dialogTitle,
+        errorMessage: error.dialogText,
+      ));
     }
   }
 }

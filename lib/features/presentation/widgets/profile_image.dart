@@ -17,7 +17,7 @@ class ProfileImageWidget extends StatelessWidget {
     return GestureDetector(
       onTap: getImage,
       child: CircleAvatar(
-        radius: 100,
+        radius: 70,
         backgroundImage: image != null ? FileImage(image!) : null,
         child: image == null ? Image.asset('assets/profile_default.png') : null,
       ),
