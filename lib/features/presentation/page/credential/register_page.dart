@@ -150,7 +150,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 text: AppStrings.register,
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    _registerUser();
+                    // _registerUser();
                   }
                 },
               ),

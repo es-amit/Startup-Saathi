@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:startup_saathi/core/constants.dart';
+import 'package:startup_saathi/features/presentation/page/credential/personal_details_page.dart';
 import '../../features/presentation/page/credential/register_page.dart';
 import '../../features/presentation/page/home/home_page.dart';
 
@@ -16,6 +17,9 @@ class OnGenerateRoute {
 
       case PageConst.homePage:
         return routeBuilder(const HomePage());
+
+      case PageConst.personalDetailsPage:
+        return routeBuilder(const PersonalDetailsPage());
 
       default:
         return routeBuilder(const NoPageFound());

@@ -5,7 +5,7 @@ import 'package:startup_saathi/core/constants.dart';
 import 'package:startup_saathi/core/theme/theme.dart';
 import 'package:startup_saathi/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:startup_saathi/features/presentation/cubit/credential/credential_cubit.dart';
-import 'package:startup_saathi/features/presentation/page/credential/log_in_page.dart';
+import 'package:startup_saathi/features/presentation/page/credential/personal_details_page.dart';
 import 'package:startup_saathi/features/presentation/page/home/home_page.dart';
 import 'package:startup_saathi/firebase_options.dart';
 import 'package:startup_saathi/init_dependencies.dart' as di;
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         title: 'Startup Saathi',
         theme: AppTheme.lightThemeMode,
         onGenerateRoute: OnGenerateRoute.route,
-        initialRoute: PageConst.logInPage,
+        initialRoute: PageConst.personalDetailsPage,
         routes: {
           '/': (context) {
             return BlocBuilder<AuthCubit, AuthState>(
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
                 if (authState is Authenticated) {
                   return const HomePage();
                 } else {
-                  return const LogInPage();
+                  return const PersonalDetailsPage();
                 }
               },
             );
