@@ -17,5 +17,8 @@ class AppStrings {
   static const String registerNow = 'Register Now';
   static const String firstName = 'First Name';
   static const String lastName = 'Last Name';
-  static const String college = 'College';
+  static const String college = 'College Name';
+  static const String resetPassword = 'Reset Password';
+  static const String enterYourEmailToResetPassword =
+      'Enter your email to reset password';
 }

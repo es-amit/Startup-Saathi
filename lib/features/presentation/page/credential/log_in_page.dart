@@ -140,7 +140,7 @@ class _LogInPageState extends State<LogInPage> {
               // forgot password
               ForgotPassword(
                 onTap: () {
-                  log('object');
+                  goToForgotPassword();
                 },
               ),
               const SizedBox(
@@ -182,6 +182,10 @@ class _LogInPageState extends State<LogInPage> {
           password: _passwordController.text,
         )
         .then((value) => _clear());
+  }
+
+  void goToForgotPassword() {
+    Navigator.of(context).pushNamed(PageConst.forgotPasswordPage);
   }
 
   void _clear() {

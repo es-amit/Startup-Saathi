@@ -6,6 +6,7 @@ abstract interface class FirebaseRepository {
   Future<void> registerUser(UserEntity user);
   Future<bool> isSignedIn();
   Future<void> signOut();
+  Future<void> resetPassword(String email);
 
   // user
   Future<String> getCurrentUid();

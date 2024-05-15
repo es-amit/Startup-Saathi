@@ -137,4 +137,14 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
       userCollection.doc(uid).set(userInformation);
     }
   }
+
+  @override
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await firebaseAuth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      log(e.code);
+      throw authErrorMapping[e.code.toLowerCase().trim()] as AuthError;
+    }
+  }
 }

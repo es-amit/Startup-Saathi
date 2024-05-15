@@ -26,4 +26,9 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
   @override
   Future<String> getCurrentUid() async =>
       await remoteDataSource.getCurrentUid();
+
+  @override
+  Future<void> resetPassword(String email) async {
+    await remoteDataSource.sendPasswordResetEmail(email);
+  }
 }

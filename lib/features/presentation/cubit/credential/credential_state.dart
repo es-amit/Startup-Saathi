@@ -34,3 +34,8 @@ class CredentialFailure extends CredentialState {
         errorMessage,
       ];
 }
+
+class CredentialEmailSent extends CredentialState {
+  @override
+  List<Object> get props => [];
+}

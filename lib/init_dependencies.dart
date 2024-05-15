@@ -10,6 +10,7 @@ import 'package:startup_saathi/features/domain/usecase/user/get_current_uid_usec
 import 'package:startup_saathi/features/domain/usecase/user/is_login_usecase.dart';
 import 'package:startup_saathi/features/domain/usecase/user/log_in_user_usecase.dart';
 import 'package:startup_saathi/features/domain/usecase/user/register_user_usecase.dart';
+import 'package:startup_saathi/features/domain/usecase/user/reset_password_usecase.dart';
 import 'package:startup_saathi/features/domain/usecase/user/sign_out_usecase.dart';
 import 'package:startup_saathi/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:startup_saathi/features/presentation/cubit/credential/credential_cubit.dart';
@@ -29,6 +30,7 @@ Future<void> init() async {
     () => CredentialCubit(
       logInUserUseCase: serviceLocator.call(),
       registerUseCase: serviceLocator.call(),
+      resetPasswordUseCase: serviceLocator.call(),
     ),
   );
 
@@ -48,6 +50,9 @@ Future<void> init() async {
 
   serviceLocator.registerLazySingleton(
       () => LogInUserUseCase(repository: serviceLocator.call()));
+
+  serviceLocator.registerLazySingleton(
+      () => ResetPasswordUseCase(repository: serviceLocator.call()));
 
   // Repositories
   serviceLocator.registerLazySingleton<FirebaseRepository>(
