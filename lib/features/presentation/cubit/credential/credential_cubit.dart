@@ -7,6 +7,7 @@ import 'package:startup_saathi/features/domain/entities/user_entity.dart';
 import 'package:startup_saathi/features/domain/usecase/user/log_in_user_usecase.dart';
 import 'package:startup_saathi/features/domain/usecase/user/register_user_usecase.dart';
 import 'package:startup_saathi/features/domain/usecase/user/reset_password_usecase.dart';
+import 'package:startup_saathi/features/domain/usecase/user/store_user_with_Image.dart';
 
 part 'credential_state.dart';
 
@@ -14,11 +15,13 @@ class CredentialCubit extends Cubit<CredentialState> {
   final LogInUserUseCase logInUserUseCase;
   final RegisterUseCase registerUseCase;
   final ResetPasswordUseCase resetPasswordUseCase;
+  final StoreUserWithImage storeUserWithImage;
 
   CredentialCubit({
     required this.logInUserUseCase,
     required this.registerUseCase,
     required this.resetPasswordUseCase,
+    required this.storeUserWithImage,
   }) : super(CredentialInitial());
 
   Future<void> resetPassword({
@@ -71,7 +74,7 @@ class CredentialCubit extends Cubit<CredentialState> {
       await registerUseCase.call(
         user,
       );
-      emit(CredentialSuccess());
+      emit(CredentialPersonalInfo());
     } on SocketException catch (_) {
       emit(const CredentialFailure());
     } catch (e) {
@@ -80,6 +83,20 @@ class CredentialCubit extends Cubit<CredentialState> {
         errorTitle: error.dialogTitle,
         errorMessage: error.dialogText,
       ));
+    }
+  }
+
+  Future<void> storeUserDetails({
+    required UserEntity user,
+  }) async {
+    emit(CredentialLoading());
+    try {
+      await storeUserWithImage.call(
+        user,
+      );
+      emit(CredentialSuccess());
+    } catch (e) {
+      emit(const CredentialFailure());
     }
   }
 }

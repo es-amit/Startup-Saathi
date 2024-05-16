@@ -21,19 +21,22 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
     required this.firebaseStorage,
   });
 
-  Future<void> createUserWithImage(UserEntity user, String profileUrl) async {
+  @override
+  Future<void> createUserWithImage(UserEntity user) async {
     final userCollection = firebaseFirestore.collection(FirebaseConst.users);
+
+    final imageUrl = await uploadImageToStorage(user.imageFile);
 
     final uid = await getCurrentUid();
 
     userCollection.doc(uid).get().then((userDoc) {
       final newUser = UserModel(
         uid: uid,
-        email: user.email,
+        profileUrl: imageUrl,
         firstName: user.firstName,
         lastName: user.lastName,
-        profilePicture: user.profilePicture,
-        phoneNumber: user.phoneNumber,
+        college: user.college,
+        city: user.city,
       ).toJson();
 
       if (!userDoc.exists) {
@@ -79,7 +82,14 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
               email: user.email!, password: user.password!)
           .then((currentUser) async {
         if (currentUser.user?.uid != null) {
-          await updateUser(user, currentUser.user?.uid, false);
+          await firebaseFirestore
+              .collection(FirebaseConst.users)
+              .doc(currentUser.user!.uid)
+              .set({
+            'uid': currentUser.user!.uid,
+            'email': user.email,
+            'phoneNumber': user.phoneNumber,
+          });
         }
       });
     } on FirebaseAuthException catch (e) {
@@ -90,16 +100,12 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
 
   @override
   Future<String> getCurrentUid() async {
-    log('getCurrentUid remote datasource');
     return firebaseAuth.currentUser!.uid;
   }
 
   @override
-  Future<String> uploadImageToStorage(File? file, String childName) async {
-    Reference ref = firebaseStorage
-        .ref()
-        .child(childName)
-        .child(firebaseAuth.currentUser!.uid);
+  Future<String> uploadImageToStorage(File? file) async {
+    Reference ref = firebaseStorage.ref().child(firebaseAuth.currentUser!.uid);
 
     final uploadTask = ref.putFile(file!);
     final imageUrl =

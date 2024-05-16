@@ -8,6 +8,9 @@ abstract interface class FirebaseRepository {
   Future<void> signOut();
   Future<void> resetPassword(String email);
 
+  // store into firestore
+  Future<void> createUserWithImage(UserEntity user);
+
   // user
   Future<String> getCurrentUid();
   Stream<List<UserEntity>> getSingleUser(String uid);

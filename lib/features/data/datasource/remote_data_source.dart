@@ -11,7 +11,10 @@ abstract interface class FirebaseRemoteDataSource {
   Future<void> sendPasswordResetEmail(String email);
 
   // Cloud Storage
-  Future<String> uploadImageToStorage(File? file, String childName);
+  Future<String> uploadImageToStorage(
+    File? file,
+  );
+  Future<void> createUserWithImage(UserEntity user);
 
   // User
   Future<String> getCurrentUid();

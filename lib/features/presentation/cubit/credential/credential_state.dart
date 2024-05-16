@@ -39,3 +39,8 @@ class CredentialEmailSent extends CredentialState {
   @override
   List<Object> get props => [];
 }
+
+class CredentialPersonalInfo extends CredentialState {
+  @override
+  List<Object?> get props => [];
+}

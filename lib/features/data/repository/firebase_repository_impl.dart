@@ -36,4 +36,9 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
   Stream<List<UserEntity>> getSingleUser(String uid) {
     return remoteDataSource.getSingleUser(uid);
   }
+
+  @override
+  Future<void> createUserWithImage(UserEntity user) async {
+    return await remoteDataSource.createUserWithImage(user);
+  }
 }
