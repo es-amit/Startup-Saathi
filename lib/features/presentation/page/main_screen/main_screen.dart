@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:startup_saathi/core/dialog/log_out_dialog.dart';
 import 'package:startup_saathi/features/presentation/cubit/auth/auth_cubit.dart';
+import 'package:startup_saathi/features/presentation/cubit/user/get_single_user/get_single_user_cubit.dart';
 import 'package:startup_saathi/features/presentation/page/chat/chat_page.dart';
 import 'package:startup_saathi/features/presentation/page/home/home_page.dart';
 import 'package:startup_saathi/features/presentation/page/profile/profile_page.dart';
@@ -19,39 +20,54 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   @override
+  void initState() {
+    context.read<GetSingleUserCubit>().getSingleUser(uid: widget.uid);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(
-              onPressed: logOut,
-              icon: const Icon(Icons.logout),
-            )
-          ],
-        ),
-        body: TabBarView(
-          children: [
-            HomePage(
-              uid: widget.uid,
+      child: BlocBuilder<GetSingleUserCubit, GetSingleUserState>(
+          builder: (context, getSingleUserState) {
+        if (getSingleUserState is GetSingleUserLoaded) {
+          final currentUser = getSingleUserState.user;
+          return Scaffold(
+            appBar: AppBar(
+              actions: [
+                IconButton(
+                  onPressed: logOut,
+                  icon: const Icon(Icons.logout),
+                )
+              ],
             ),
-            const ChatPage(),
-            const ProfilePage(),
-          ],
-        ),
-        bottomNavigationBar: const TabBar(tabs: [
-          Tab(
-            icon: Icon(Icons.home),
-          ),
-          Tab(
-            icon: Icon(Icons.chat),
-          ),
-          Tab(
-            icon: Icon(Icons.person),
-          )
-        ]),
-      ),
+            body: TabBarView(
+              children: [
+                HomePage(
+                  uid: widget.uid,
+                ),
+                const ChatPage(),
+                ProfilePage(
+                  userEntity: currentUser,
+                ),
+              ],
+            ),
+            bottomNavigationBar: const TabBar(tabs: [
+              Tab(
+                icon: Icon(Icons.home),
+              ),
+              Tab(
+                icon: Icon(Icons.chat),
+              ),
+              Tab(
+                icon: Icon(Icons.person),
+              )
+            ]),
+          );
+        }
+        return const CircularProgressIndicator();
+      }),
     );
   }
 

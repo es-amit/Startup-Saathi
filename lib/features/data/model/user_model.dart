@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:startup_saathi/features/domain/entities/user_entity.dart';
 
 class UserModel extends UserEntity {
@@ -30,5 +31,18 @@ class UserModel extends UserEntity {
       'phoneNumber': phoneNumber,
       'profilePicture': profilePicture,
     };
+  }
+
+  factory UserModel.fromSnapshot(DocumentSnapshot snap) {
+    var snapshot = snap.data() as Map<String, dynamic>;
+
+    return UserModel(
+      uid: snapshot['uid'],
+      email: snapshot['email'],
+      phoneNumber: snapshot['phoneNumber'],
+      firstName: snapshot['firstName'],
+      lastName: snapshot['lastName'],
+      profilePicture: snapshot['profilePicture'],
+    );
   }
 }

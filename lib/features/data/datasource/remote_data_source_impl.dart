@@ -147,4 +147,14 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
       throw authErrorMapping[e.code.toLowerCase().trim()] as AuthError;
     }
   }
+
+  @override
+  Stream<List<UserEntity>> getSingleUser(String uid) {
+    final userCollection = firebaseFirestore
+        .collection(FirebaseConst.users)
+        .where("uid", isEqualTo: uid)
+        .limit(1);
+    return userCollection.snapshots().map((querySnapshot) =>
+        querySnapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList());
+  }
 }

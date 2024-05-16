@@ -7,6 +7,7 @@ import 'package:startup_saathi/features/data/datasource/remote_data_source_impl.
 import 'package:startup_saathi/features/data/repository/firebase_repository_impl.dart';
 import 'package:startup_saathi/features/domain/repository/firebase_repository.dart';
 import 'package:startup_saathi/features/domain/usecase/user/get_current_uid_usecase.dart';
+import 'package:startup_saathi/features/domain/usecase/user/get_single_user_usercase.dart';
 import 'package:startup_saathi/features/domain/usecase/user/is_login_usecase.dart';
 import 'package:startup_saathi/features/domain/usecase/user/log_in_user_usecase.dart';
 import 'package:startup_saathi/features/domain/usecase/user/register_user_usecase.dart';
@@ -14,6 +15,7 @@ import 'package:startup_saathi/features/domain/usecase/user/reset_password_useca
 import 'package:startup_saathi/features/domain/usecase/user/sign_out_usecase.dart';
 import 'package:startup_saathi/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:startup_saathi/features/presentation/cubit/credential/credential_cubit.dart';
+import 'package:startup_saathi/features/presentation/cubit/user/get_single_user/get_single_user_cubit.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -31,6 +33,11 @@ Future<void> init() async {
       logInUserUseCase: serviceLocator.call(),
       registerUseCase: serviceLocator.call(),
       resetPasswordUseCase: serviceLocator.call(),
+    ),
+  );
+  serviceLocator.registerFactory(
+    () => GetSingleUserCubit(
+      getSingleUserUseCase: serviceLocator.call(),
     ),
   );
 
@@ -53,6 +60,9 @@ Future<void> init() async {
 
   serviceLocator.registerLazySingleton(
       () => ResetPasswordUseCase(repository: serviceLocator.call()));
+
+  serviceLocator.registerLazySingleton(
+      () => GetSingleUserUseCase(repository: serviceLocator.call()));
 
   // Repositories
   serviceLocator.registerLazySingleton<FirebaseRepository>(

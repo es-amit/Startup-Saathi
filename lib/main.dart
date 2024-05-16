@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:startup_saathi/core/theme/theme.dart';
 import 'package:startup_saathi/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:startup_saathi/features/presentation/cubit/credential/credential_cubit.dart';
+import 'package:startup_saathi/features/presentation/cubit/user/get_single_user/get_single_user_cubit.dart';
 import 'package:startup_saathi/features/presentation/page/credential/log_in_page.dart';
 import 'package:startup_saathi/features/presentation/page/main_screen/main_screen.dart';
 import 'package:startup_saathi/firebase_options.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (_) => di.serviceLocator<AuthCubit>()..appStarted(context)),
         BlocProvider(create: (_) => di.serviceLocator<CredentialCubit>()),
+        BlocProvider(create: (_) => di.serviceLocator<GetSingleUserCubit>())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
