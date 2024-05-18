@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -31,6 +30,8 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
 
     userCollection.doc(uid).get().then((userDoc) {
       final newUser = UserModel(
+        email: userDoc.get('email'),
+        phoneNumber: userDoc.get('phoneNumber'),
         uid: uid,
         profileUrl: imageUrl,
         firstName: user.firstName,
@@ -44,14 +45,11 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
       } else {
         userCollection.doc(uid).update(newUser);
       }
-    }).catchError((error) {
-      log("error: $error");
-    });
+    }).catchError((error) {});
   }
 
   @override
   Future<bool> isSignIn() async {
-    log('isSignin remote datasource');
     return firebaseAuth.currentUser != null;
   }
 
@@ -64,7 +62,6 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
       );
     } on FirebaseAuthException catch (e) {
       // handling error
-      log(e.code);
       throw authErrorMapping[e.code.toLowerCase().trim()] as AuthError;
     }
   }
@@ -93,7 +90,6 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
         }
       });
     } on FirebaseAuthException catch (e) {
-      log(e.code);
       throw authErrorMapping[e.code.toLowerCase().trim()] as AuthError;
     }
   }
@@ -149,7 +145,6 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
     try {
       await firebaseAuth.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (e) {
-      log(e.code);
       throw authErrorMapping[e.code.toLowerCase().trim()] as AuthError;
     }
   }

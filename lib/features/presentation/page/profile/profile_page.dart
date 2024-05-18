@@ -14,8 +14,8 @@ class ProfilePage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            Text(userEntity.email!),
-            Text(userEntity.phoneNumber!),
+            // Text(userEntity.email!),
+            // Text(userEntity.phoneNumber!),
             // Text(userEntity.firstName!),
             // Text(userEntity.lastName!),
             Text(userEntity.uid!),

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:startup_saathi/core/constants.dart';
@@ -48,6 +47,7 @@ class _LogInPageState extends State<LogInPage> {
         child: BlocConsumer<CredentialCubit, CredentialState>(
           listener: (context, credentialState) {
             log(credentialState.toString());
+            log('yha ki maal');
             if (credentialState is CredentialLoading) {
               LoadingScreen.instance()
                   .show(context: context, text: 'Please wait...');
@@ -161,7 +161,7 @@ class _LogInPageState extends State<LogInPage> {
                 member: AppStrings.notAMember,
                 text: AppStrings.registerNow,
                 onTap: () {
-                  Navigator.pushNamed(
+                  Navigator.pushReplacementNamed(
                     context,
                     PageConst.registerPage,
                   );

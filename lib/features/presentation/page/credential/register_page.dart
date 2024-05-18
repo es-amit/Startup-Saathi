@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:startup_saathi/core/constants.dart';
@@ -50,12 +48,10 @@ class _RegisterPageState extends State<RegisterPage> {
       body: SafeArea(
         child: BlocConsumer<CredentialCubit, CredentialState>(
           listener: (context, credentialState) {
-            log(credentialState.toString());
             if (credentialState is CredentialLoading) {
               LoadingScreen.instance()
                   .show(context: context, text: 'Please wait...');
-            }
-            if (credentialState is CredentialPersonalInfo) {
+            } else if (credentialState is CredentialPersonalInfo) {
               LoadingScreen.instance().hide();
               showSnackbar(context, 'Account Created Successfully!');
               Navigator.of(context).pushNamed(PageConst.personalDetailsPage);
@@ -70,7 +66,6 @@ class _RegisterPageState extends State<RegisterPage> {
             }
           },
           builder: (context, credentialState) {
-            log(credentialState.toString());
             if (credentialState is CredentialPersonalInfo) {
               return const PersonalDetailsPage();
               // return BlocBuilder<AuthCubit, AuthState>(
@@ -160,7 +155,8 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               AccountRichText(
                 onTap: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(context)
+                      .pushReplacementNamed(PageConst.logInPage);
                 },
                 member: AppStrings.alreadyMember,
                 text: AppStrings.loginNow,

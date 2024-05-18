@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:csc_picker/csc_picker.dart';
@@ -10,6 +9,7 @@ import 'package:startup_saathi/core/strings/app_strings.dart';
 import 'package:startup_saathi/features/domain/entities/user_entity.dart';
 import 'package:startup_saathi/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:startup_saathi/features/presentation/cubit/credential/credential_cubit.dart';
+import 'package:startup_saathi/features/presentation/page/credential/log_in_page.dart';
 import 'package:startup_saathi/features/presentation/page/main_screen/main_screen.dart';
 import 'package:startup_saathi/features/presentation/widgets/custom_button.dart';
 import 'package:startup_saathi/features/presentation/widgets/custom_text_field.dart';
@@ -63,16 +63,14 @@ class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
       body: SafeArea(
         child: BlocConsumer<CredentialCubit, CredentialState>(
           listener: (context, credentialState) {
-            log(credentialState.toString());
             if (credentialState is CredentialLoading) {
               LoadingScreen.instance()
                   .show(context: context, text: 'Storing Details...');
-            }
-            if (credentialState is CredentialSuccess) {
+            } else if (credentialState is CredentialSuccess) {
               LoadingScreen.instance().hide();
+              context.read<AuthCubit>().loggedIn();
               showSnackbar(
                   context, 'Your details has been stored successfully!');
-              context.read<AuthCubit>().loggedIn();
             } else if (credentialState is CredentialFailure) {
               LoadingScreen.instance().hide();
               showAuthError(
@@ -80,18 +78,20 @@ class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
                 dialogTitle: credentialState.errorTitle,
                 dialogText: credentialState.errorMessage,
               );
+            } else {
+              LoadingScreen.instance().hide();
             }
           },
           builder: (context, credentialState) {
-            log(credentialState.toString());
             if (credentialState is CredentialSuccess) {
               return BlocBuilder<AuthCubit, AuthState>(
                 builder: (context, authState) {
                   if (authState is Authenticated) {
                     return MainScreen(uid: authState.uid);
-                  } else {
-                    return _bodyWidget();
+                  } else if (authState is UnAuthenticated) {
+                    return const LogInPage();
                   }
+                  return _bodyWidget();
                 },
               );
             }
@@ -168,7 +168,8 @@ class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
                 text: 'Next',
                 onPressed: () {
                   if (formKey.currentState!.validate() &&
-                      selectedCity.isNotEmpty) {
+                      selectedCity.isNotEmpty &&
+                      image != null) {
                     storeDetails();
                   }
                 },
