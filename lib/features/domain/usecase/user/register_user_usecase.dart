@@ -1,5 +1,3 @@
-import 'package:startup_saathi/features/domain/entities/user_entity.dart';
-
 import '../../repository/firebase_repository.dart';
 
 class RegisterUseCase {
@@ -7,7 +5,7 @@ class RegisterUseCase {
 
   RegisterUseCase({required this.repository});
 
-  Future<void> call(UserEntity userEntity) {
-    return repository.registerUser(userEntity);
+  Future<void> call(String email, String password) {
+    return repository.registerUser(email, password);
   }
 }

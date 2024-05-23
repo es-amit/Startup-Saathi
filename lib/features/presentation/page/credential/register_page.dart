@@ -4,9 +4,7 @@ import 'package:startup_saathi/core/constants.dart';
 import 'package:startup_saathi/core/loading/loading_screen.dart';
 import 'package:startup_saathi/core/strings/app_strings.dart';
 import 'package:startup_saathi/core/theme/app_pallete.dart';
-import 'package:startup_saathi/features/domain/entities/user_entity.dart';
 import 'package:startup_saathi/features/presentation/cubit/credential/credential_cubit.dart';
-import 'package:startup_saathi/features/presentation/page/credential/personal_details_page.dart';
 import 'package:startup_saathi/features/presentation/widgets/account_rich_text.dart';
 import 'package:startup_saathi/features/presentation/widgets/custom_button.dart';
 import 'package:startup_saathi/features/presentation/widgets/custom_text_field.dart';
@@ -51,7 +49,7 @@ class _RegisterPageState extends State<RegisterPage> {
             if (credentialState is CredentialLoading) {
               LoadingScreen.instance()
                   .show(context: context, text: 'Please wait...');
-            } else if (credentialState is CredentialPersonalInfo) {
+            } else if (credentialState is CredentialSuccess) {
               LoadingScreen.instance().hide();
               showSnackbar(context, 'Account Created Successfully!');
               Navigator.of(context).pushNamed(PageConst.personalDetailsPage);
@@ -66,19 +64,6 @@ class _RegisterPageState extends State<RegisterPage> {
             }
           },
           builder: (context, credentialState) {
-            if (credentialState is CredentialPersonalInfo) {
-              return const PersonalDetailsPage();
-              // return BlocBuilder<AuthCubit, AuthState>(
-              //   builder: (context, authState) {
-              //     log(authState.toString());
-              //     if (authState is ) {
-              //       return MainScreen(uid: authState.uid);
-              //     } else {
-              //       return _bodyWidget();
-              //     }
-              //   },
-              // );
-            }
             return _bodyWidget();
           },
         ),
@@ -155,8 +140,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               AccountRichText(
                 onTap: () {
-                  Navigator.of(context)
-                      .pushReplacementNamed(PageConst.logInPage);
+                  Navigator.of(context).pop();
                 },
                 member: AppStrings.alreadyMember,
                 text: AppStrings.loginNow,
@@ -169,14 +153,12 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future<void> _registerUser() async {
+    // TODO : Store email and phone in UserEntity
     context
         .read<CredentialCubit>()
         .registerUser(
-          user: UserEntity(
-            email: _emailController.text,
-            password: _passwordController.text,
-            phoneNumber: _phoneController.text,
-          ),
+          email: _emailController.text,
+          password: _passwordController.text,
         )
         .then((value) => _clear());
   }

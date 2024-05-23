@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:startup_saathi/core/constants.dart';
@@ -46,13 +45,10 @@ class _LogInPageState extends State<LogInPage> {
       body: SafeArea(
         child: BlocConsumer<CredentialCubit, CredentialState>(
           listener: (context, credentialState) {
-            log(credentialState.toString());
-            log('yha ki maal');
             if (credentialState is CredentialLoading) {
               LoadingScreen.instance()
                   .show(context: context, text: 'Please wait...');
-            }
-            if (credentialState is CredentialSuccess) {
+            } else if (credentialState is CredentialSuccess) {
               LoadingScreen.instance().hide();
               context.read<AuthCubit>().loggedIn();
             } else if (credentialState is CredentialFailure) {
@@ -66,11 +62,9 @@ class _LogInPageState extends State<LogInPage> {
             }
           },
           builder: (context, credentialState) {
-            log(credentialState.toString());
             if (credentialState is CredentialSuccess) {
               return BlocBuilder<AuthCubit, AuthState>(
                 builder: (context, authState) {
-                  log(authState.toString());
                   if (authState is Authenticated) {
                     return MainScreen(uid: authState.uid);
                   } else {

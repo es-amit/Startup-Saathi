@@ -40,7 +40,7 @@ class CredentialEmailSent extends CredentialState {
   List<Object> get props => [];
 }
 
-class CredentialPersonalInfo extends CredentialState {
+class CredentialUserInfoStored extends CredentialState {
   @override
   List<Object?> get props => [];
 }

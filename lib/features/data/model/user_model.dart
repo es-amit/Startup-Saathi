@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:startup_saathi/features/domain/entities/user_entity.dart';
 
@@ -9,25 +11,32 @@ class UserModel extends UserEntity {
     super.profileUrl,
     super.firstName,
     super.lastName,
-    super.city,
     super.college,
+    super.city,
+    super.skills,
+    super.lookingFor,
+    super.whoYouAre,
     super.imageFile,
-  }) : super();
+  });
 
-  factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(
-      uid: json['uid'],
-      email: json['email'],
-      phoneNumber: json['phoneNumber'],
-      profileUrl: json['profileUrl'],
-      firstName: json['firstName'],
-      lastName: json['lastName'],
-      college: json['college'],
-      city: json['city'],
+  static UserModel fromSnapshot(DocumentSnapshot snap) {
+    UserModel user = UserModel(
+      uid: snap.id,
+      email: snap['email'],
+      phoneNumber: snap['phoneNumber'],
+      profileUrl: snap['profileUrl'],
+      firstName: snap['firstName'],
+      lastName: snap['lastName'],
+      college: snap['college'],
+      city: snap['city'],
+      lookingFor: snap['lookingFor'],
+      whoYouAre: snap['whoYouAre'],
+      skills: List<String>.from(snap['skills']),
     );
+    return user;
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return {
       'uid': uid,
       'email': email,
@@ -37,21 +46,58 @@ class UserModel extends UserEntity {
       'lastName': lastName,
       'college': college,
       'city': city,
+      'lookingFor': lookingFor,
+      'whoYouAre': whoYouAre,
+      'skills': skills,
     };
   }
 
-  factory UserModel.fromSnapshot(DocumentSnapshot snap) {
-    var snapshot = snap.data() as Map<String, dynamic>;
-
+  UserModel copyWith({
+    String? uid,
+    String? email,
+    String? phoneNumber,
+    String? profileUrl,
+    String? firstName,
+    String? lastName,
+    String? college,
+    String? city,
+    String? lookingFor,
+    String? whoYouAre,
+    List<String>? skills,
+    File? imageFile,
+  }) {
     return UserModel(
-      uid: snapshot['uid'],
-      email: snapshot['email'],
-      phoneNumber: snapshot['phoneNumber'],
-      profileUrl: snapshot['profileUrl'],
-      firstName: snapshot['firstName'],
-      lastName: snapshot['lastName'],
-      college: snapshot['college'],
-      city: snapshot['city'],
+      uid: uid ?? this.uid,
+      email: email ?? this.email,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      profileUrl: profileUrl ?? this.profileUrl,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      college: college ?? this.college,
+      city: city ?? this.city,
+      lookingFor: lookingFor ?? this.lookingFor,
+      whoYouAre: whoYouAre ?? this.whoYouAre,
+      skills: skills ?? this.skills,
+      imageFile: imageFile ?? this.imageFile,
     );
+  }
+
+  UserModel toModel(UserEntity userEntity) {
+    UserModel userModel = UserModel(
+      uid: userEntity.uid,
+      email: userEntity.email,
+      phoneNumber: userEntity.phoneNumber,
+      profileUrl: userEntity.profileUrl,
+      firstName: userEntity.firstName,
+      lastName: userEntity.lastName,
+      college: userEntity.college,
+      city: userEntity.city,
+      lookingFor: userEntity.lookingFor,
+      whoYouAre: userEntity.whoYouAre,
+      skills: userEntity.skills,
+      imageFile: userEntity.imageFile,
+    );
+
+    return userModel;
   }
 }

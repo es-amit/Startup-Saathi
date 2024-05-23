@@ -1,4 +1,5 @@
 import 'package:startup_saathi/features/data/datasource/remote_data_source.dart';
+import 'package:startup_saathi/features/data/model/user_model.dart';
 import 'package:startup_saathi/features/domain/entities/user_entity.dart';
 import 'package:startup_saathi/features/domain/repository/firebase_repository.dart';
 
@@ -13,12 +14,12 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
   Future<bool> isSignedIn() async => await remoteDataSource.isSignIn();
 
   @override
-  Future<void> logInUser(UserEntity user) async =>
-      await remoteDataSource.logInUser(user);
+  Future<void> logInUser(String email, String password) async =>
+      await remoteDataSource.logInUser(email, password);
 
   @override
-  Future<void> registerUser(UserEntity user) async =>
-      await remoteDataSource.registerUser(user);
+  Future<void> registerUser(String email, String password) async =>
+      await remoteDataSource.registerUser(email, password);
 
   @override
   Future<void> signOut() async => await remoteDataSource.signOut();
@@ -38,7 +39,8 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
   }
 
   @override
-  Future<void> createUserWithImage(UserEntity user) async {
-    return await remoteDataSource.createUserWithImage(user);
+  Future<void> storeUserInfo(UserEntity user) async {
+    final userModel = const UserModel().toModel(user);
+    return await remoteDataSource.storeUserInfo(userModel);
   }
 }

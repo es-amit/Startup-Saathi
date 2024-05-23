@@ -7,7 +7,7 @@ import 'package:startup_saathi/features/domain/entities/user_entity.dart';
 import 'package:startup_saathi/features/domain/usecase/user/log_in_user_usecase.dart';
 import 'package:startup_saathi/features/domain/usecase/user/register_user_usecase.dart';
 import 'package:startup_saathi/features/domain/usecase/user/reset_password_usecase.dart';
-import 'package:startup_saathi/features/domain/usecase/user/store_user_with_Image.dart';
+import 'package:startup_saathi/features/domain/usecase/user/store_user_info_usecase.dart';
 
 part 'credential_state.dart';
 
@@ -15,13 +15,13 @@ class CredentialCubit extends Cubit<CredentialState> {
   final LogInUserUseCase logInUserUseCase;
   final RegisterUseCase registerUseCase;
   final ResetPasswordUseCase resetPasswordUseCase;
-  final StoreUserWithImage storeUserWithImage;
+  final StoreUserInfoUseCase storeUserInfoUseCase;
 
   CredentialCubit({
     required this.logInUserUseCase,
     required this.registerUseCase,
     required this.resetPasswordUseCase,
-    required this.storeUserWithImage,
+    required this.storeUserInfoUseCase,
   }) : super(CredentialInitial());
 
   Future<void> resetPassword({
@@ -49,10 +49,8 @@ class CredentialCubit extends Cubit<CredentialState> {
     emit(CredentialLoading());
     try {
       await logInUserUseCase.call(
-        UserEntity(
-          email: email,
-          password: password,
-        ),
+        email,
+        password,
       );
       emit(CredentialSuccess());
     } on SocketException catch (_) {
@@ -67,14 +65,16 @@ class CredentialCubit extends Cubit<CredentialState> {
   }
 
   Future<void> registerUser({
-    required UserEntity user,
+    required String email,
+    required String password,
   }) async {
     emit(CredentialLoading());
     try {
       await registerUseCase.call(
-        user,
+        email,
+        password,
       );
-      emit(CredentialPersonalInfo());
+      emit(CredentialSuccess());
     } on SocketException catch (_) {
       emit(const CredentialFailure());
     } catch (e) {
@@ -91,10 +91,10 @@ class CredentialCubit extends Cubit<CredentialState> {
   }) async {
     emit(CredentialLoading());
     try {
-      await storeUserWithImage.call(
+      await storeUserInfoUseCase.call(
         user,
       );
-      emit(CredentialSuccess());
+      emit(CredentialUserInfoStored());
     } catch (e) {
       emit(const CredentialFailure());
     }
