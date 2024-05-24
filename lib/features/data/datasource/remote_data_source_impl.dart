@@ -27,6 +27,8 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
 
     final uid = await getCurrentUid();
 
+    log(user.toString());
+
     final imageUrl = await uploadImageToStorage(user.imageFile);
 
     user.copyWith(
@@ -87,9 +89,7 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
 
   @override
   Future<String> uploadImageToStorage(File? file) async {
-    Reference ref = firebaseStorage
-        .ref()
-        .child('${firebaseAuth.currentUser!.uid}/profileImage');
+    Reference ref = firebaseStorage.ref().child(firebaseAuth.currentUser!.uid);
 
     final uploadTask = ref.putFile(file!);
     final imageUrl =
@@ -109,11 +109,16 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
 
   @override
   Stream<List<UserEntity>> getSingleUser(String uid) {
-    final userCollection = firebaseFirestore
-        .collection(FirebaseConst.users)
-        .where("uid", isEqualTo: uid)
-        .limit(1);
-    return userCollection.snapshots().map((querySnapshot) =>
-        querySnapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList());
+    try {
+      final userCollection = firebaseFirestore
+          .collection(FirebaseConst.users)
+          .where("uid", isEqualTo: uid)
+          .limit(1);
+      return userCollection.snapshots().map((querySnapshot) =>
+          querySnapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList());
+    } catch (e) {
+      log(e.toString());
+      throw e;
+    }
   }
 }

@@ -155,10 +155,7 @@ class _LogInPageState extends State<LogInPage> {
                 member: AppStrings.notAMember,
                 text: AppStrings.registerNow,
                 onTap: () {
-                  Navigator.pushReplacementNamed(
-                    context,
-                    PageConst.registerPage,
-                  );
+                  Navigator.of(context).pushNamed(PageConst.registerPage);
                 },
               )
             ],

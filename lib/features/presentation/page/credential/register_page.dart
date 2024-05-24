@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:startup_saathi/core/constants.dart';
 import 'package:startup_saathi/core/loading/loading_screen.dart';
 import 'package:startup_saathi/core/strings/app_strings.dart';
 import 'package:startup_saathi/core/theme/app_pallete.dart';
+import 'package:startup_saathi/features/domain/entities/user_entity.dart';
 import 'package:startup_saathi/features/presentation/cubit/credential/credential_cubit.dart';
 import 'package:startup_saathi/features/presentation/widgets/account_rich_text.dart';
 import 'package:startup_saathi/features/presentation/widgets/custom_button.dart';
@@ -46,13 +49,15 @@ class _RegisterPageState extends State<RegisterPage> {
       body: SafeArea(
         child: BlocConsumer<CredentialCubit, CredentialState>(
           listener: (context, credentialState) {
+            log(credentialState.toString());
             if (credentialState is CredentialLoading) {
               LoadingScreen.instance()
                   .show(context: context, text: 'Please wait...');
             } else if (credentialState is CredentialSuccess) {
               LoadingScreen.instance().hide();
               showSnackbar(context, 'Account Created Successfully!');
-              Navigator.of(context).pushNamed(PageConst.personalDetailsPage);
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  PageConst.personalDetailsPage, (route) => false);
             } else if (credentialState is CredentialFailure) {
               LoadingScreen.instance().hide();
 
@@ -153,9 +158,12 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future<void> _registerUser() async {
-    // TODO : Store email and phone in UserEntity
-    context
-        .read<CredentialCubit>()
+    final credentialCubit = context.read<CredentialCubit>();
+    credentialCubit.userEntity = UserEntity(
+      email: _emailController.text,
+      phoneNumber: _phoneController.text,
+    );
+    credentialCubit
         .registerUser(
           email: _emailController.text,
           password: _passwordController.text,

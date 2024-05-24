@@ -30,8 +30,38 @@ class UserEntity extends Equatable {
     this.imageFile,
     this.lookingFor,
     this.whoYouAre,
-    this.skills,
-  });
+    List<String>? skills,
+  }) : skills = skills ?? const [];
+
+  UserEntity copyWith({
+    String? uid,
+    String? email,
+    String? phoneNumber,
+    String? profileUrl,
+    String? firstName,
+    String? lastName,
+    String? college,
+    String? city,
+    String? lookingFor,
+    String? whoYouAre,
+    List<String>? skills,
+    File? imageFile,
+  }) {
+    return UserEntity(
+      uid: uid ?? this.uid,
+      email: email ?? this.email,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      profileUrl: profileUrl ?? this.profileUrl,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      college: college ?? this.college,
+      city: city ?? this.city,
+      lookingFor: lookingFor ?? this.lookingFor,
+      whoYouAre: whoYouAre ?? this.whoYouAre,
+      skills: skills ?? this.skills,
+      imageFile: imageFile ?? this.imageFile,
+    );
+  }
 
   @override
   List<Object?> get props => [

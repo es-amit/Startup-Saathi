@@ -1,12 +1,13 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:csc_picker/csc_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:startup_saathi/core/image_picker_helper.dart';
 import 'package:startup_saathi/core/loading/loading_screen.dart';
 import 'package:startup_saathi/core/strings/app_strings.dart';
-import 'package:startup_saathi/features/domain/entities/user_entity.dart';
 import 'package:startup_saathi/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:startup_saathi/features/presentation/cubit/credential/credential_cubit.dart';
 import 'package:startup_saathi/features/presentation/page/credential/log_in_page.dart';
@@ -29,6 +30,7 @@ class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
   late TextEditingController _lastNameController;
   late TextEditingController _collegeNameController;
   File? image;
+  String? uid;
   final formKey = GlobalKey<FormState>();
   String selectedCity = '';
 
@@ -59,18 +61,21 @@ class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(),
       body: SafeArea(
         child: BlocConsumer<CredentialCubit, CredentialState>(
           listener: (context, credentialState) {
+            log(credentialState.toString());
             if (credentialState is CredentialLoading) {
               LoadingScreen.instance()
                   .show(context: context, text: 'Storing Details...');
-            } else if (credentialState is CredentialSuccess) {
+            } else if (credentialState is CredentialUserInfoStored) {
               LoadingScreen.instance().hide();
+
               context.read<AuthCubit>().loggedIn();
               showSnackbar(
-                  context, 'Your details has been stored successfully!');
+                context,
+                'Your details has been stored successfully!',
+              );
             } else if (credentialState is CredentialFailure) {
               LoadingScreen.instance().hide();
               showAuthError(
@@ -83,10 +88,11 @@ class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
             }
           },
           builder: (context, credentialState) {
-            if (credentialState is CredentialSuccess) {
+            if (credentialState is CredentialUserInfoStored) {
               return BlocBuilder<AuthCubit, AuthState>(
                 builder: (context, authState) {
                   if (authState is Authenticated) {
+                    Navigator.of(context).pop();
                     return MainScreen(uid: authState.uid);
                   } else if (authState is UnAuthenticated) {
                     return const LogInPage();
@@ -182,14 +188,20 @@ class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
   }
 
   Future<void> storeDetails() async {
-    context.read<CredentialCubit>().storeUserDetails(
-          user: UserEntity(
-            firstName: _firstNameController.text,
-            lastName: _lastNameController.text,
-            college: _collegeNameController.text,
-            city: selectedCity,
-            imageFile: image,
-          ),
-        );
+    final credentialCubit = context.read<CredentialCubit>();
+    setState(() {
+      credentialCubit.userEntity = credentialCubit.userEntity?.copyWith(
+        uid: FirebaseAuth.instance.currentUser!.uid,
+        firstName: _firstNameController.text,
+        lastName: _lastNameController.text,
+        college: _collegeNameController.text,
+        city: selectedCity,
+        imageFile: image,
+      );
+    });
+
+    credentialCubit.storeUserDetails(
+      user: credentialCubit.userEntity!,
+    );
   }
 }

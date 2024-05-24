@@ -31,7 +31,7 @@ class UserModel extends UserEntity {
       city: snap['city'],
       lookingFor: snap['lookingFor'],
       whoYouAre: snap['whoYouAre'],
-      skills: List<String>.from(snap['skills']),
+      skills: List<String>.from(snap['skills'] ?? []),
     );
     return user;
   }
@@ -52,6 +52,7 @@ class UserModel extends UserEntity {
     };
   }
 
+  @override
   UserModel copyWith({
     String? uid,
     String? email,

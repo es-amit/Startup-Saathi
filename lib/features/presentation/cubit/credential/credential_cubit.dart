@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
@@ -16,6 +17,8 @@ class CredentialCubit extends Cubit<CredentialState> {
   final RegisterUseCase registerUseCase;
   final ResetPasswordUseCase resetPasswordUseCase;
   final StoreUserInfoUseCase storeUserInfoUseCase;
+
+  UserEntity? userEntity;
 
   CredentialCubit({
     required this.logInUserUseCase,
@@ -90,6 +93,7 @@ class CredentialCubit extends Cubit<CredentialState> {
     required UserEntity user,
   }) async {
     emit(CredentialLoading());
+    log(user.toString());
     try {
       await storeUserInfoUseCase.call(
         user,

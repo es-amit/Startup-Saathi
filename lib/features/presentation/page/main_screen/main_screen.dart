@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:startup_saathi/core/dialog/log_out_dialog.dart';
@@ -30,46 +32,54 @@ class _MainScreenState extends State<MainScreen> {
     return DefaultTabController(
       length: 3,
       child: BlocBuilder<GetSingleUserCubit, GetSingleUserState>(
-          builder: (context, getSingleUserState) {
-        if (getSingleUserState is GetSingleUserLoaded) {
-          final currentUser = getSingleUserState.user;
-          return Scaffold(
-            appBar: AppBar(
-              actions: [
-                IconButton(
-                  onPressed: logOut,
-                  icon: const Icon(Icons.logout),
+        builder: (context, getSingleUserState) {
+          log(getSingleUserState.toString());
+          if (getSingleUserState is GetSingleUserLoading) {
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          } else if (getSingleUserState is GetSingleUserLoaded) {
+            final currentUser = getSingleUserState.user;
+            return Scaffold(
+              appBar: AppBar(
+                actions: [
+                  IconButton(
+                    onPressed: logOut,
+                    icon: const Icon(Icons.logout),
+                  )
+                ],
+              ),
+              body: TabBarView(
+                children: [
+                  HomePage(
+                    uid: widget.uid,
+                  ),
+                  const ChatPage(),
+                  ProfilePage(
+                    userEntity: currentUser,
+                  ),
+                ],
+              ),
+              bottomNavigationBar: const TabBar(tabs: [
+                Tab(
+                  icon: Icon(Icons.home),
+                ),
+                Tab(
+                  icon: Icon(Icons.chat),
+                ),
+                Tab(
+                  icon: Icon(Icons.person),
                 )
-              ],
-            ),
-            body: TabBarView(
-              children: [
-                HomePage(
-                  uid: widget.uid,
-                ),
-                const ChatPage(),
-                ProfilePage(
-                  userEntity: currentUser,
-                ),
-              ],
-            ),
-            bottomNavigationBar: const TabBar(tabs: [
-              Tab(
-                icon: Icon(Icons.home),
-              ),
-              Tab(
-                icon: Icon(Icons.chat),
-              ),
-              Tab(
-                icon: Icon(Icons.person),
-              )
-            ]),
+              ]),
+            );
+          }
+          return const Center(
+            child: Text('Not Found!!'),
           );
-        }
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      }),
+        },
+      ),
     );
   }
 

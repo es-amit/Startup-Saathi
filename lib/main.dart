@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,6 +46,7 @@ class MyApp extends StatelessWidget {
           '/': (context) {
             return BlocBuilder<AuthCubit, AuthState>(
               builder: (context, authState) {
+                log(authState.toString());
                 if (authState is Authenticated) {
                   return MainScreen(uid: authState.uid);
                 } else {
