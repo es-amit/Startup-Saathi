@@ -120,7 +120,7 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
           querySnapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList());
     } catch (e) {
       log(e.toString());
-      throw e;
+      return const Stream.empty();
     }
   }
 }

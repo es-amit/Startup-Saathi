@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:startup_saathi/core/dialog/log_out_dialog.dart';
+import 'package:startup_saathi/core/strings/app_strings.dart';
 import 'package:startup_saathi/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:startup_saathi/features/presentation/cubit/user/get_single_user/get_single_user_cubit.dart';
 import 'package:startup_saathi/features/presentation/page/chat/chat_page.dart';
@@ -74,7 +75,7 @@ class _MainScreenState extends State<MainScreen> {
             );
           }
           return const Center(
-            child: Text('Not Found!!'),
+            child: Text(AppStrings.notFound),
           );
         },
       ),

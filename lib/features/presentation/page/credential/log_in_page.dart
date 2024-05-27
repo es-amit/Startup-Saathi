@@ -117,14 +117,14 @@ class _LogInPageState extends State<LogInPage> {
               // email
               CustomTextField(
                 controller: _emailController,
-                hintText: 'Email',
+                hintText: AppStrings.emailHintText,
               ),
               const SizedBox(
                 height: 15,
               ),
               CustomTextField(
                 controller: _passwordController,
-                hintText: "Password",
+                hintText: AppStrings.passwordHintText,
                 isPasswordField: true,
               ),
               const SizedBox(
@@ -141,7 +141,7 @@ class _LogInPageState extends State<LogInPage> {
                 height: 25,
               ),
               CustomButton(
-                text: 'Log In',
+                text: AppStrings.login,
                 onPressed: () {
                   if (formkey.currentState!.validate()) {
                     _signInUser();

@@ -35,6 +35,22 @@ class CredentialFailure extends CredentialState {
       ];
 }
 
+class CredentialPersonalInfoFailure extends CredentialState {
+  final String errorTitle;
+  final String errorMessage;
+
+  const CredentialPersonalInfoFailure({
+    this.errorTitle = 'Error',
+    this.errorMessage = 'Something went wrong',
+  });
+
+  @override
+  List<Object> get props => [
+        errorTitle,
+        errorMessage,
+      ];
+}
+
 class CredentialEmailSent extends CredentialState {
   @override
   List<Object> get props => [];

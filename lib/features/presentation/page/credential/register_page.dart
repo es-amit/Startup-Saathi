@@ -45,17 +45,16 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(),
       body: SafeArea(
         child: BlocConsumer<CredentialCubit, CredentialState>(
           listener: (context, credentialState) {
             log(credentialState.toString());
             if (credentialState is CredentialLoading) {
               LoadingScreen.instance()
-                  .show(context: context, text: 'Please wait...');
+                  .show(context: context, text: AppStrings.pleaseWait);
             } else if (credentialState is CredentialSuccess) {
               LoadingScreen.instance().hide();
-              showSnackbar(context, 'Account Created Successfully!');
+              showSnackbar(context, AppStrings.accountCreated);
               Navigator.of(context).pushNamedAndRemoveUntil(
                   PageConst.personalDetailsPage, (route) => false);
             } else if (credentialState is CredentialFailure) {

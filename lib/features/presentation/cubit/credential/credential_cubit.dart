@@ -100,7 +100,7 @@ class CredentialCubit extends Cubit<CredentialState> {
       );
       emit(CredentialUserInfoStored());
     } catch (e) {
-      emit(const CredentialFailure());
+      emit(const CredentialPersonalInfoFailure());
     }
   }
 }

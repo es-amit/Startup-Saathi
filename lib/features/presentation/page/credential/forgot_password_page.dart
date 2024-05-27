@@ -87,7 +87,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             .then(
                               (value) => showSnackbar(
                                 context,
-                                'Email has been sent to your email address.',
+                                AppStrings.emailSent,
                               ),
                             );
                       }

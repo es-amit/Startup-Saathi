@@ -7,7 +7,7 @@ class AppStrings {
   static const String emailHintText = 'Email';
   static const String passwordHintText = 'Password';
   static const String forgotPassword = 'Forgot Password?';
-  static const String signIn = 'Sign In';
+  static const String login = 'Log In';
   static const String phoneHintText = 'Phone';
   static const String confirmPasswordController = 'Confirm Password';
   static const String register = 'Register';
@@ -21,4 +21,16 @@ class AppStrings {
   static const String resetPassword = 'Reset Password';
   static const String enterYourEmailToResetPassword =
       'Enter your email to reset password';
+
+  static const String selectYourSkills = 'Select your skills';
+  static const String storeDetails = 'Store Details';
+  static const String lookingFor = "Looking For";
+  static const String whoAreYou = "Who are you?";
+  static const String yourDetailsSaved =
+      'Your details has been stored successfully!';
+  static const String storingDetails = 'Storing Details...';
+  static const String emailSent = 'Email has been sent to your email address.';
+  static const String accountCreated = 'Account Created Successfully!';
+  static const String pleaseWait = 'Please wait...';
+  static const String notFound = 'Not Found!!';
 }
