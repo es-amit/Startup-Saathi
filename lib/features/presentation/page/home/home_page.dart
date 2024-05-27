@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:startup_saathi/features/presentation/page/home/widget/user_card.dart';
 
 class HomePage extends StatelessWidget {
   final String? uid;
@@ -6,9 +7,12 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('Home Page'),
+    return Scaffold(
+      body: ListView(
+        children: const [
+          UserCard(url: 'assets/pic.jpeg'),
+          UserCard(url: 'assets/pic2.jpeg'),
+        ],
       ),
     );
   }

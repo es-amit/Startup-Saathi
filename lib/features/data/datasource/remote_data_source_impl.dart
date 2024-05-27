@@ -31,9 +31,11 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
 
     final imageUrl = await uploadImageToStorage(user.imageFile);
 
-    user.copyWith(
+    user = user.copyWith(
       profileUrl: imageUrl,
     );
+
+    log(user.toString());
     userCollection
         .doc(uid)
         .set(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:startup_saathi/core/constants.dart';
 import 'package:startup_saathi/features/presentation/page/credential/forgot_password_page.dart';
 import 'package:startup_saathi/features/presentation/page/credential/personal_details_page.dart';
+import 'package:startup_saathi/features/presentation/page/main_screen/main_screen.dart';
 import '../../features/presentation/page/credential/register_page.dart';
 import '../../features/presentation/page/home/home_page.dart';
 
@@ -25,14 +26,18 @@ class OnGenerateRoute {
       case PageConst.forgotPasswordPage:
         return routeBuilder(const ForgotPasswordPage());
 
+      case PageConst.mainPage:
+        final uid = settings.arguments as String;
+        return routeBuilder(MainScreen(uid: uid));
+
       default:
         return routeBuilder(const NoPageFound());
     }
   }
 }
 
-dynamic routeBuilder(Widget child) {
-  return MaterialPageRoute(builder: (context) => child);
+dynamic routeBuilder(Widget child, {RouteSettings? settings}) {
+  return MaterialPageRoute(builder: (context) => child, settings: settings);
 }
 
 class NoPageFound extends StatelessWidget {

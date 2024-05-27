@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:startup_saathi/core/dialog/log_out_dialog.dart';
@@ -23,6 +21,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
+    Navigator.of(context).popUntil((route) => route.isFirst);
     context.read<GetSingleUserCubit>().getSingleUser(uid: widget.uid);
     super.initState();
   }
@@ -33,7 +32,6 @@ class _MainScreenState extends State<MainScreen> {
       length: 3,
       child: BlocBuilder<GetSingleUserCubit, GetSingleUserState>(
         builder: (context, getSingleUserState) {
-          log(getSingleUserState.toString());
           if (getSingleUserState is GetSingleUserLoading) {
             return const Scaffold(
               body: Center(

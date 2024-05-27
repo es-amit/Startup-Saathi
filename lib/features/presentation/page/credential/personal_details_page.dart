@@ -92,8 +92,13 @@ class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
               return BlocBuilder<AuthCubit, AuthState>(
                 builder: (context, authState) {
                   if (authState is Authenticated) {
-                    Navigator.of(context).pop();
+                    // Navigator.of(context).pushReplacementNamed(
+                    //     PageConst.mainPage,
+                    //     arguments: authState.uid);
+
                     return MainScreen(uid: authState.uid);
+
+                    // return const SizedBox();
                   } else if (authState is UnAuthenticated) {
                     return const LogInPage();
                   }
