@@ -84,15 +84,15 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
             children: [
               const SizedBox(
-                height: 80,
-              ),
-              const Icon(
-                Icons.lock,
-                size: 100,
-              ),
-
-              const SizedBox(
                 height: 50,
+              ),
+              Image.asset(
+                'assets/logo.png',
+                height: MediaQuery.of(context).size.height * 0.2,
+                width: MediaQuery.of(context).size.height * 0.8,
+              ),
+              const SizedBox(
+                height: 15,
               ),
 
               // welcome

@@ -93,14 +93,15 @@ class _LogInPageState extends State<LogInPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(
-                height: 80,
+                height: 60,
               ),
-              const Icon(
-                Icons.person,
-                size: 100,
+              Image.asset(
+                'assets/logo.png',
+                height: MediaQuery.of(context).size.height * 0.2,
+                width: MediaQuery.of(context).size.height * 0.8,
               ),
               const SizedBox(
-                height: 50,
+                height: 15,
               ),
               const Text(
                 AppStrings.welcomeBackYouHaveBeenMissed,
