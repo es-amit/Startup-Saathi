@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:startup_saathi/features/data/model/user_model.dart';
-import 'package:startup_saathi/features/domain/entities/user_entity.dart';
 
 abstract interface class FirebaseRemoteDataSource {
   // Credentials
@@ -20,5 +19,6 @@ abstract interface class FirebaseRemoteDataSource {
 
   // User
   Future<String> getCurrentUid();
-  Stream<List<UserEntity>> getSingleUser(String uid);
+  Future<UserModel> getSingleUser(String uid);
+  Stream<List<UserModel>> getAllUsers(String currentUser);
 }

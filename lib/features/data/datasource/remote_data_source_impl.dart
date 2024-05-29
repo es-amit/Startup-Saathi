@@ -8,7 +8,6 @@ import 'package:startup_saathi/core/constants.dart';
 import 'package:startup_saathi/features/data/datasource/errors/firebase_error_handler.dart';
 import 'package:startup_saathi/features/data/datasource/remote_data_source.dart';
 import 'package:startup_saathi/features/data/model/user_model.dart';
-import 'package:startup_saathi/features/domain/entities/user_entity.dart';
 
 class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
   final FirebaseAuth firebaseAuth;
@@ -110,14 +109,36 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
   }
 
   @override
-  Stream<List<UserEntity>> getSingleUser(String uid) {
+  Future<UserModel> getSingleUser(String uid) async {
     try {
-      final userCollection = firebaseFirestore
+      final user = await firebaseFirestore
           .collection(FirebaseConst.users)
-          .where("uid", isEqualTo: uid)
-          .limit(1);
-      return userCollection.snapshots().map((querySnapshot) =>
-          querySnapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList());
+          .doc(uid)
+          .get();
+
+      if (user.exists && user.data() != null) {
+        return UserModel.fromSnapshot(user);
+      }
+      log('user not found');
+      throw Exception('User not found');
+    } catch (e) {
+      log(e.toString());
+      throw Exception('Failed to fetch user data');
+    }
+  }
+
+  @override
+  Stream<List<UserModel>> getAllUsers(String currentUser) {
+    try {
+      return firebaseFirestore
+          .collection(FirebaseConst.users)
+          .snapshots()
+          .map((snapshot) {
+        return snapshot.docs
+            .where((doc) => doc.id != currentUser) // Exclude the current user
+            .map((doc) => UserModel.fromSnapshot(doc))
+            .toList();
+      });
     } catch (e) {
       log(e.toString());
       return const Stream.empty();

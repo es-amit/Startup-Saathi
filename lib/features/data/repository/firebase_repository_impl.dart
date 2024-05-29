@@ -34,7 +34,7 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
   }
 
   @override
-  Stream<List<UserEntity>> getSingleUser(String uid) {
+  Future<UserEntity> getSingleUser(String uid) {
     return remoteDataSource.getSingleUser(uid);
   }
 
@@ -42,5 +42,10 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
   Future<void> storeUserInfo(UserEntity user) async {
     final userModel = const UserModel().toModel(user);
     return await remoteDataSource.storeUserInfo(userModel);
+  }
+
+  @override
+  Stream<List<UserEntity>> getAllUsers(String currentUser) {
+    return remoteDataSource.getAllUsers(currentUser);
   }
 }

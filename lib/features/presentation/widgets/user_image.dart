@@ -54,7 +54,7 @@ class UserImage extends StatelessWidget {
             fit: BoxFit.cover,
             image: (url == null)
                 ? const AssetImage('assets/pic.jpeg') as ImageProvider
-                : AssetImage(url!)),
+                : NetworkImage(url!)),
         borderRadius: const BorderRadius.all(Radius.circular(5.0)),
         border: border,
         boxShadow: boxShadow,

@@ -15,9 +15,8 @@ class GetSingleUserCubit extends Cubit<GetSingleUserState> {
   Future<void> getSingleUser({required String uid}) async {
     emit(GetSingleUserLoading());
     try {
-      final streamResponse = getSingleUserUseCase.call(uid);
-      streamResponse.listen((users) {
-        emit(GetSingleUserLoaded(user: users.first));
+      getSingleUserUseCase(uid).then((user) {
+        emit(GetSingleUserLoaded(user: user));
       });
     } on SocketException catch (_) {
       emit(GetSingleUserFailure());

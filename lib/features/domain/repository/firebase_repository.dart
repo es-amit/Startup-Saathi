@@ -13,5 +13,8 @@ abstract interface class FirebaseRepository {
 
   // user
   Future<String> getCurrentUid();
-  Stream<List<UserEntity>> getSingleUser(String uid);
+  Future<UserEntity> getSingleUser(String uid);
+
+  // get all users
+  Stream<List<UserEntity>> getAllUsers(String currentUser);
 }

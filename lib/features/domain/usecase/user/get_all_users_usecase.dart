@@ -1,12 +1,12 @@
 import 'package:startup_saathi/features/domain/entities/user_entity.dart';
 import 'package:startup_saathi/features/domain/repository/firebase_repository.dart';
 
-class GetSingleUserUseCase {
+class GetAllUsersUseCase {
   final FirebaseRepository repository;
 
-  GetSingleUserUseCase({required this.repository});
+  GetAllUsersUseCase({required this.repository});
 
-  Future<UserEntity> call(String uid) {
-    return repository.getSingleUser(uid);
+  Stream<List<UserEntity>> call(String currentUser) {
+    return repository.getAllUsers(currentUser);
   }
 }

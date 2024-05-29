@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:startup_saathi/features/domain/entities/user_entity.dart';
 import 'package:startup_saathi/features/presentation/widgets/user_image.dart';
 
 class UserCard extends StatelessWidget {
-  final String url;
+  final UserEntity user;
   const UserCard({
     super.key,
-    required this.url,
+    required this.user,
   });
 
   @override
@@ -31,38 +32,39 @@ class UserCard extends StatelessWidget {
           UserImage.large(
             height: MediaQuery.of(context).size.height * 0.24,
             width: MediaQuery.of(context).size.width * 0.33,
-            url: url,
+            url: user.profileUrl,
           ),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'User Name',
-                  style: TextStyle(
+                Text(
+                  '${user.firstName} ${user.lastName}',
+                  style: const TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
                 ),
-                const Text(
-                  'Who He is | Email',
+                Text(
+                  '${user.whoYouAre} | ${user.email}',
                 ),
 
-                const Text(
-                  'Location | College',
+                Text(
+                  '${user.college} | ${user.lookingFor}',
                 ),
-                const Text(
-                  'Looking For',
+                Text(
+                  '${user.email}',
                 ),
                 const Spacer(),
                 SizedBox(
                   height: 40, // Adjust height as necessary
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: skills.length,
+                    itemCount: user.skills!.length,
                     itemBuilder: (context, index) {
+                      final skills = user.skills!;
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 3),
                         child: Chip(
@@ -101,5 +103,3 @@ class UserCard extends StatelessWidget {
     );
   }
 }
-
-List<String> skills = ["Skill 1", "Skill 2", "Skill 3", "Skill 4", "Skill 5"];
