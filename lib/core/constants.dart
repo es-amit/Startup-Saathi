@@ -5,11 +5,22 @@ class PageConst {
   static const String personalDetailsPage = 'personalDetailsPage';
   static const String forgotPasswordPage = 'forgotPasswordPage';
   static const String mainPage = 'mainPage';
+  static const String lookingForPage = 'lookingForPage';
+  static const String whoAreYouPage = 'whoAreYouPage';
+  static const String startupInfoPage = 'startupInfoPage';
 }
 
 class FirebaseConst {
   static const String users = 'users';
 }
+
+List<String> companyType = [
+  "Private",
+  "Public",
+  "Government",
+  "NGO",
+  "Others",
+];
 
 List<String> skills = [
   "React",

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:startup_saathi/core/constants.dart';
 import 'package:startup_saathi/features/presentation/page/credential/forgot_password_page.dart';
+import 'package:startup_saathi/features/presentation/page/credential/looking_for_page.dart';
 import 'package:startup_saathi/features/presentation/page/credential/personal_details_page.dart';
+import 'package:startup_saathi/features/presentation/page/credential/startup_info_page.dart';
+import 'package:startup_saathi/features/presentation/page/credential/who_are_you_page.dart';
 import 'package:startup_saathi/features/presentation/page/main_screen/main_screen.dart';
 import '../../features/presentation/page/credential/register_page.dart';
 import '../../features/presentation/page/home/home_page.dart';
@@ -25,6 +28,15 @@ class OnGenerateRoute {
 
       case PageConst.forgotPasswordPage:
         return routeBuilder(const ForgotPasswordPage());
+
+      case PageConst.lookingForPage:
+        return routeBuilder(const LookingForPage());
+
+      case PageConst.whoAreYouPage:
+        return routeBuilder(const WhoAreYouPage());
+
+      case PageConst.startupInfoPage:
+        return routeBuilder(const StartupInfoPage());
 
       case PageConst.mainPage:
         final uid = settings.arguments as String;

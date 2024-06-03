@@ -33,4 +33,13 @@ class AppStrings {
   static const String accountCreated = 'Account Created Successfully!';
   static const String pleaseWait = 'Please wait...';
   static const String notFound = 'Not Found!!';
+  static const String whatAreYouLookingFor = 'What are you looking for?';
+  static const String enterYourBioHere = 'Enter your Startup bio here';
+  static const String pleaseFillUpInfoAboutStartup =
+      'Please fill up info about your startup';
+
+  static const String companyCategories = 'Company Categories';
+  static const String next = 'Next';
+  static const String startup = 'Startup';
+  static const String cofounder = 'Co-founder';
 }

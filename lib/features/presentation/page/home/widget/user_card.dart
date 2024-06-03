@@ -37,25 +37,26 @@ class UserCard extends StatelessWidget {
           const SizedBox(width: 10),
           Expanded(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   '${user.firstName} ${user.lastName}',
                   style: const TextStyle(
-                    fontSize: 26,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
                 ),
                 Text(
-                  '${user.whoYouAre} | ${user.email}',
+                  'Designation: ${user.whoYouAre}',
                 ),
 
                 Text(
-                  '${user.college} | ${user.lookingFor}',
+                  'College: ${user.college} | Looking for: ${user.lookingFor}',
                 ),
                 Text(
-                  '${user.email}',
+                  'Email: ${user.email}',
                 ),
                 const Spacer(),
                 SizedBox(
@@ -84,7 +85,7 @@ class UserCard extends StatelessWidget {
                 const Spacer(), // To push the buttons to the bottom
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
+                  children: [
                     ElevatedButton(
                       onPressed: () {},
                       child: const Text('Interested'),
