@@ -10,14 +10,14 @@ class ShimmerUserCard extends StatelessWidget {
       baseColor: Colors.grey[500]!,
       highlightColor: Colors.grey[300]!,
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.27,
+        height: MediaQuery.of(context).size.height * 0.25,
         margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
         padding: const EdgeInsets.all(6),
         child: Row(
           children: [
             Container(
-              height: MediaQuery.of(context).size.height * 0.34,
-              width: MediaQuery.of(context).size.width * 0.25,
+              height: MediaQuery.of(context).size.height * 0.25,
+              width: MediaQuery.of(context).size.width * 0.3,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.white,
@@ -31,7 +31,7 @@ class ShimmerUserCard extends StatelessWidget {
                 children: [
                   Container(
                     height: 30,
-                    width: double.infinity,
+                    width: MediaQuery.of(context).size.width * 0.45,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       color: Colors.white,
@@ -54,16 +54,33 @@ class ShimmerUserCard extends StatelessWidget {
                   Container(
                     height: 20,
                     width: double.infinity,
-                    color: Colors.white,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    height: 20,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.white,
+                    ),
                   ),
 
                   const Spacer(),
                   Container(
                     height: 40,
                     width: double.infinity,
-                    color: Colors.white,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.white,
+                    ),
                   ),
-                  const Spacer(), // To push the buttons to the bottom
+                  // const Spacer(), // To push the buttons to the bottom
                 ],
               ),
             ),

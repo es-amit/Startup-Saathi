@@ -28,6 +28,12 @@ class _HomePageState extends State<HomePage> {
       body: BlocBuilder<GetAllUsersCubit, GetAllUsersState>(
         builder: (context, allUserState) {
           if (allUserState is GetAllUserLoadingState) {
+            return ListView.builder(
+              itemCount: 10,
+              itemBuilder: ((context, index) {
+                return const ShimmerUserCard();
+              }),
+            );
           } else if (allUserState is GetAllUserSuccessState) {
             final users = allUserState.users;
             log(users.length.toString());
@@ -36,22 +42,22 @@ class _HomePageState extends State<HomePage> {
                 child: Text('No User Found'),
               );
             }
-            return const ShimmerUserCard();
-            // return Column(
-            //   children: [
-            //     Expanded(
-            //       child: ListView.builder(
-            //         itemCount: users.length,
-            //         itemBuilder: ((context, index) {
-            //           final user = users[index];
-            //           return UserCard(
-            //             user: user,
-            //           );
-            //         }),
-            //       ),
-            //     ),
-            //   ],
-            // );
+
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: users.length,
+                    itemBuilder: ((context, index) {
+                      final user = users[index];
+                      return UserCard(
+                        user: user,
+                      );
+                    }),
+                  ),
+                ),
+              ],
+            );
           }
           return const Center(
             child: Text('No User Found'),
