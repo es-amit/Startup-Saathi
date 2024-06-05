@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
@@ -8,16 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:startup_saathi/core/constants.dart';
 import 'package:startup_saathi/core/image_picker_helper.dart';
-import 'package:startup_saathi/core/loading/loading_screen.dart';
 import 'package:startup_saathi/core/strings/app_strings.dart';
-import 'package:startup_saathi/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:startup_saathi/features/presentation/cubit/credential/credential_cubit.dart';
-import 'package:startup_saathi/features/presentation/page/credential/log_in_page.dart';
-import 'package:startup_saathi/features/presentation/page/main_screen/main_screen.dart';
 import 'package:startup_saathi/features/presentation/widgets/custom_button.dart';
 import 'package:startup_saathi/features/presentation/widgets/custom_text_field.dart';
 import 'package:startup_saathi/features/presentation/widgets/profile_image.dart';
-import 'package:startup_saathi/features/presentation/widgets/show_snackbar.dart';
 
 class PersonalDetailsPage extends StatefulWidget {
   const PersonalDetailsPage({super.key});
@@ -27,14 +21,11 @@ class PersonalDetailsPage extends StatefulWidget {
 }
 
 class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
-  // File? image;
   late TextEditingController _firstNameController;
   late TextEditingController _lastNameController;
   late TextEditingController _collegeNameController;
   File? image;
   List<String> userSkills = [];
-  String lookingFor = '';
-  String whoAreYou = '';
   final formKey = GlobalKey<FormState>();
   String selectedCity = '';
 
@@ -66,49 +57,7 @@ class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: BlocConsumer<CredentialCubit, CredentialState>(
-          listener: (context, credentialState) {
-            log(credentialState.toString());
-            if (credentialState is CredentialLoading) {
-              LoadingScreen.instance()
-                  .show(context: context, text: AppStrings.storingDetails);
-            } else if (credentialState is CredentialUserInfoStored) {
-              LoadingScreen.instance().hide();
-
-              context.read<AuthCubit>().loggedIn();
-              showSnackbar(
-                context,
-                AppStrings.yourDetailsSaved,
-              );
-            } else if (credentialState is CredentialPersonalInfoFailure) {
-              LoadingScreen.instance().hide();
-              showAuthError(
-                context: context,
-                dialogTitle: credentialState.errorTitle,
-                dialogText: credentialState.errorMessage,
-              );
-            } else {
-              LoadingScreen.instance().hide();
-            }
-          },
-          builder: (context, credentialState) {
-            if (credentialState is CredentialUserInfoStored) {
-              return BlocBuilder<AuthCubit, AuthState>(
-                builder: (context, authState) {
-                  if (authState is Authenticated) {
-                    return MainScreen(
-                      uid: authState.uid,
-                    );
-                  } else if (authState is UnAuthenticated) {
-                    return const LogInPage();
-                  }
-                  return _bodyWidget();
-                },
-              );
-            }
-            return _bodyWidget();
-          },
-        ),
+        child: _bodyWidget(),
       ),
     );
   }
@@ -157,26 +106,8 @@ class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
               const SizedBox(
                 height: 15,
               ),
-              CustomDropdown(
-                hintText: AppStrings.whoAreYou,
-                items: desgination,
-                onChanged: (value) {
-                  setState(() {
-                    whoAreYou = value;
-                  });
-                },
-              ),
               const SizedBox(
                 height: 15,
-              ),
-              CustomDropdown(
-                hintText: AppStrings.lookingFor,
-                items: desgination,
-                onChanged: (value) {
-                  setState(() {
-                    lookingFor = value;
-                  });
-                },
               ),
               const SizedBox(
                 height: 25,
@@ -185,8 +116,7 @@ class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
                 text: AppStrings.storeDetails,
                 onPressed: () {
                   if (formKey.currentState!.validate() &&
-                      selectedCity.isNotEmpty &&
-                      image != null) {
+                      selectedCity.isNotEmpty) {
                     storeDetails();
                   }
                 },
@@ -232,7 +162,6 @@ class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
         setState(() {
           userSkills = value;
         });
-        log(userSkills.toString());
       },
     );
   }
@@ -248,13 +177,13 @@ class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
         city: selectedCity,
         imageFile: image,
         skills: userSkills,
-        whoYouAre: whoAreYou,
-        lookingFor: lookingFor,
       );
     });
 
-    credentialCubit.storeUserDetails(
-      user: credentialCubit.userEntity!,
-    );
+    Navigator.of(context).pushReplacementNamed(PageConst.lookingForPage);
+
+    // credentialCubit.storeUserDetails(
+    //   user: credentialCubit.userEntity!,
+    // );
   }
 }

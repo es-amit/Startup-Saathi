@@ -1,6 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:startup_saathi/core/constants.dart';
 import 'package:startup_saathi/core/strings/app_strings.dart';
 import 'package:startup_saathi/core/theme/app_pallete.dart';
+import 'package:startup_saathi/features/presentation/cubit/credential/credential_cubit.dart';
 import 'package:startup_saathi/features/presentation/widgets/selectable_button.dart';
 
 class LookingForPage extends StatefulWidget {
@@ -59,7 +64,7 @@ class _LookingForPageState extends State<LookingForPage> {
               Align(
                 alignment: Alignment.bottomRight,
                 child: TextButton.icon(
-                  onPressed: () {},
+                  onPressed: storeLookingFor,
                   icon: const Icon(Icons.arrow_forward_ios),
                   label: const Text(
                     AppStrings.next,
@@ -76,5 +81,16 @@ class _LookingForPageState extends State<LookingForPage> {
         ),
       ),
     );
+  }
+
+  void storeLookingFor() {
+    final credentialCubit = context.read<CredentialCubit>();
+    setState(() {
+      credentialCubit.userEntity = credentialCubit.userEntity?.copyWith(
+        lookingFor: selectedButton,
+      );
+    });
+    log(credentialCubit.userEntity.toString());
+    Navigator.of(context).pushReplacementNamed(PageConst.whoAreYouPage);
   }
 }

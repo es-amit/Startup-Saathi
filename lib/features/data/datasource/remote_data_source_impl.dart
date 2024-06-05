@@ -1,9 +1,11 @@
 import 'dart:developer';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/services.dart';
 import 'package:startup_saathi/core/constants.dart';
 import 'package:startup_saathi/features/data/datasource/errors/firebase_error_handler.dart';
 import 'package:startup_saathi/features/data/datasource/remote_data_source.dart';
@@ -80,6 +82,9 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
       );
     } on FirebaseAuthException catch (e) {
       throw authErrorMapping[e.code.toLowerCase().trim()] as AuthError;
+    } catch (e) {
+      log(e.toString());
+      throw Exception('Failed to register user');
     }
   }
 
@@ -90,9 +95,17 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
 
   @override
   Future<String> uploadImageToStorage(File? file) async {
+    Uint8List imageData;
+    if (file == null) {
+      // load default image from assets
+      ByteData byteData = await rootBundle.load('assets/profile_default.png');
+      imageData = byteData.buffer.asUint8List();
+    } else {
+      imageData = await file.readAsBytes();
+    }
     Reference ref = firebaseStorage.ref().child(firebaseAuth.currentUser!.uid);
 
-    final uploadTask = ref.putFile(file!);
+    final uploadTask = ref.putData(imageData);
     final imageUrl =
         (await uploadTask.whenComplete(() {})).ref.getDownloadURL();
 

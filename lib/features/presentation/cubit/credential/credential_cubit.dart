@@ -13,6 +13,7 @@ import 'package:startup_saathi/features/domain/usecase/user/store_user_info_usec
 part 'credential_state.dart';
 
 class CredentialCubit extends Cubit<CredentialState> {
+  bool isRegistering = false;
   final LogInUserUseCase logInUserUseCase;
   final RegisterUseCase registerUseCase;
   final ResetPasswordUseCase resetPasswordUseCase;
@@ -51,6 +52,7 @@ class CredentialCubit extends Cubit<CredentialState> {
   }) async {
     emit(CredentialLoading());
     try {
+      isRegistering = false;
       await logInUserUseCase.call(
         email,
         password,
@@ -71,6 +73,7 @@ class CredentialCubit extends Cubit<CredentialState> {
     required String email,
     required String password,
   }) async {
+    isRegistering = true;
     emit(CredentialLoading());
     try {
       await registerUseCase.call(
@@ -81,6 +84,7 @@ class CredentialCubit extends Cubit<CredentialState> {
     } on SocketException catch (_) {
       emit(const CredentialFailure());
     } catch (e) {
+      log(e.toString());
       final error = e as AuthError;
       emit(CredentialFailure(
         errorTitle: error.dialogTitle,

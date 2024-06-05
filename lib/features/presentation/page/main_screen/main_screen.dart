@@ -1,9 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:startup_saathi/core/animation/data_not_found_animation_view.dart';
+import 'package:startup_saathi/core/animation/loading_animation_view.dart';
+import 'package:startup_saathi/core/constants.dart';
 import 'package:startup_saathi/core/dialog/log_out_dialog.dart';
-import 'package:startup_saathi/core/strings/app_strings.dart';
 import 'package:startup_saathi/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:startup_saathi/features/presentation/cubit/user/get_single_user/get_single_user_cubit.dart';
 import 'package:startup_saathi/features/presentation/page/chat/chat_page.dart';
@@ -36,14 +36,12 @@ class _MainScreenState extends State<MainScreen> {
       child: BlocBuilder<GetSingleUserCubit, GetSingleUserState>(
         builder: (context, getSingleUserState) {
           if (getSingleUserState is GetSingleUserLoading) {
-            log("yha pe atka hai");
             return const Scaffold(
               body: Center(
-                child: CircularProgressIndicator(),
+                child: LoadingAnimationView(),
               ),
             );
           } else if (getSingleUserState is GetSingleUserLoaded) {
-            log('yha pe aaya');
             final currentUser = getSingleUserState.user;
             return Scaffold(
               appBar: AppBar(
@@ -79,7 +77,7 @@ class _MainScreenState extends State<MainScreen> {
             );
           }
           return const Center(
-            child: Text(AppStrings.notFound),
+            child: DataNotFoundAnimationView(),
           );
         },
       ),
@@ -91,6 +89,9 @@ class _MainScreenState extends State<MainScreen> {
     if (shouldLogOut) {
       // ignore: use_build_context_synchronously
       context.read<AuthCubit>().loggedOut();
+      // ignore: use_build_context_synchronously
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(PageConst.logInPage, (route) => false);
     }
   }
 }

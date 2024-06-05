@@ -1,7 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:startup_saathi/core/animation/data_not_found_animation_view.dart';
 import 'package:startup_saathi/features/presentation/cubit/user/get_all_users/get_all_users_cubit.dart';
 import 'package:startup_saathi/features/presentation/page/home/widget/shimmer_user_card.dart';
 import 'package:startup_saathi/features/presentation/page/home/widget/user_card.dart';
@@ -18,7 +17,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    log(widget.uid!);
     context.read<GetAllUsersCubit>().getAllUsers(widget.uid!);
   }
 
@@ -36,10 +34,9 @@ class _HomePageState extends State<HomePage> {
             );
           } else if (allUserState is GetAllUserSuccessState) {
             final users = allUserState.users;
-            log(users.length.toString());
             if (users.isEmpty) {
               return const Center(
-                child: Text('No User Found'),
+                child: DataNotFoundAnimationView(),
               );
             }
 
@@ -60,7 +57,7 @@ class _HomePageState extends State<HomePage> {
             );
           }
           return const Center(
-            child: Text('No User Found'),
+            child: DataNotFoundAnimationView(),
           );
         },
       ),

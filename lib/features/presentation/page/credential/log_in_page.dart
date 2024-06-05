@@ -45,10 +45,12 @@ class _LogInPageState extends State<LogInPage> {
       body: SafeArea(
         child: BlocConsumer<CredentialCubit, CredentialState>(
           listener: (context, credentialState) {
+            final credentialCubit = context.read<CredentialCubit>();
             if (credentialState is CredentialLoading) {
               LoadingScreen.instance()
-                  .show(context: context, text: 'Please wait...');
-            } else if (credentialState is CredentialSuccess) {
+                  .show(context: context, text: AppStrings.pleaseWait);
+            } else if (credentialState is CredentialSuccess &&
+                !credentialCubit.isRegistering) {
               LoadingScreen.instance().hide();
               context.read<AuthCubit>().loggedIn();
             } else if (credentialState is CredentialFailure) {

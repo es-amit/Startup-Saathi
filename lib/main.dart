@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,8 +8,7 @@ import 'package:startup_saathi/features/presentation/cubit/auth/auth_cubit.dart'
 import 'package:startup_saathi/features/presentation/cubit/credential/credential_cubit.dart';
 import 'package:startup_saathi/features/presentation/cubit/user/get_all_users/get_all_users_cubit.dart';
 import 'package:startup_saathi/features/presentation/cubit/user/get_single_user/get_single_user_cubit.dart';
-import 'package:startup_saathi/features/presentation/page/credential/log_in_page.dart';
-import 'package:startup_saathi/features/presentation/page/main_screen/main_screen.dart';
+
 import 'package:startup_saathi/firebase_options.dart';
 import 'package:startup_saathi/init_dependencies.dart' as di;
 import 'package:startup_saathi/core/routes/routes.dart';
@@ -67,12 +64,20 @@ class _MyAppState extends State<MyApp> {
           '/': (context) {
             return BlocBuilder<AuthCubit, AuthState>(
               builder: (context, authState) {
-                log(authState.toString());
                 if (authState is Authenticated) {
-                  return MainScreen(uid: authState.uid);
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    Navigator.of(context).pushReplacementNamed(
+                      PageConst.mainPage,
+                      arguments: authState.uid,
+                    );
+                  });
                 } else {
-                  return const LogInPage();
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    Navigator.of(context)
+                        .pushReplacementNamed(PageConst.logInPage);
+                  });
                 }
+                return Container();
               },
             );
           }

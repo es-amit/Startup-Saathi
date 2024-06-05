@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:startup_saathi/core/constants.dart';
@@ -48,7 +46,6 @@ class _RegisterPageState extends State<RegisterPage> {
       body: SafeArea(
         child: BlocConsumer<CredentialCubit, CredentialState>(
           listener: (context, credentialState) {
-            log(credentialState.toString());
             if (credentialState is CredentialLoading) {
               LoadingScreen.instance()
                   .show(context: context, text: AppStrings.pleaseWait);
@@ -56,7 +53,9 @@ class _RegisterPageState extends State<RegisterPage> {
               LoadingScreen.instance().hide();
               showSnackbar(context, AppStrings.accountCreated);
               Navigator.of(context).pushNamedAndRemoveUntil(
-                  PageConst.personalDetailsPage, (route) => false);
+                PageConst.personalDetailsPage,
+                (route) => false,
+              );
             } else if (credentialState is CredentialFailure) {
               LoadingScreen.instance().hide();
 
