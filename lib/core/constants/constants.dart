@@ -8,19 +8,13 @@ class PageConst {
   static const String lookingForPage = 'lookingForPage';
   static const String whoAreYouPage = 'whoAreYouPage';
   static const String startupInfoPage = 'startupInfoPage';
+  static const String noInternetPage = 'noInternetPage';
+  static const String initialPage = 'initialPage';
 }
 
 class FirebaseConst {
   static const String users = 'users';
 }
-
-List<String> companyType = [
-  "Private",
-  "Public",
-  "Government",
-  "NGO",
-  "Others",
-];
 
 List<String> skills = [
   "React",
@@ -86,6 +80,26 @@ List<String> skills = [
   "commodities trading",
   "insurance",
   "sales",
+];
+
+List<String> sectors = [
+  "Fintech",
+  "Edutech",
+  "Saas",
+  "E-commerce",
+  "Social networking platform",
+  "Sales",
+  "Marketing",
+  "Agritech",
+  "Logistics",
+  "Healthtech",
+  "Consumer goods",
+  "FMCG",
+  "Streaming",
+  "Entertainment",
+  "Finance",
+  "Ad-tech",
+  "Real-estate",
 ];
 
 List<String> desgination = [

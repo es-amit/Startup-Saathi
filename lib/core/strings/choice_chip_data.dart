@@ -1,34 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:startup_saathi/core/constants/app_strings.dart';
 import 'package:startup_saathi/core/strings/choice_chip.dart';
 
 class ChoiceChips {
   static final all = [
     ChoiceChipData(
-      label: 'Choice 1',
+      label: AppStrings.concept,
       isSelected: false,
       selectedColor: Colors.blue,
       textColor: Colors.white,
     ),
     ChoiceChipData(
-      label: 'Choice 2',
+      label: AppStrings.traction,
       isSelected: false,
       selectedColor: Colors.blue,
       textColor: Colors.white,
     ),
     ChoiceChipData(
-      label: 'Choice 3',
+      label: AppStrings.productLaunched,
       isSelected: false,
       selectedColor: Colors.blue,
       textColor: Colors.white,
     ),
     ChoiceChipData(
-      label: 'Choice 4',
-      isSelected: false,
-      selectedColor: Colors.blue,
-      textColor: Colors.white,
-    ),
-    ChoiceChipData(
-      label: 'Choice 5',
+      label: AppStrings.growth,
       isSelected: false,
       selectedColor: Colors.blue,
       textColor: Colors.white,

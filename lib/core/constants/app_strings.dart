@@ -34,12 +34,19 @@ class AppStrings {
   static const String pleaseWait = 'Please wait...';
   static const String notFound = 'Not Found!!';
   static const String whatAreYouLookingFor = 'What are you looking for?';
-  static const String enterYourBioHere = 'Enter your Startup bio here';
-  static const String pleaseFillUpInfoAboutStartup =
-      'Please fill up info about your startup';
+  static const String enterYourBioHere = 'Enter your bio here';
+  static const String startupInfo = 'Startup Info';
 
-  static const String companyCategories = 'Company Categories';
+  static const String companySector = 'Company Sector';
   static const String next = 'Next';
   static const String startup = 'Startup';
   static const String cofounder = 'Co-founder';
+  static const String startupSaathi = 'Startup Saathi';
+  static const String bio = '1. Bio';
+  static const String companyCategories2 = '2. Company Categories';
+  static const String businessStage = '3. Business Stage';
+  static const String concept = 'Concept';
+  static const String traction = 'Traction';
+  static const String productLaunched = 'Product Launched';
+  static const String growth = 'Growth';
 }

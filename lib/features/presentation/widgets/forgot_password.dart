@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:startup_saathi/core/strings/app_strings.dart';
+import 'package:startup_saathi/core/constants/app_strings.dart';
 import 'package:startup_saathi/core/theme/app_pallete.dart';
 
 class ForgotPassword extends StatelessWidget {

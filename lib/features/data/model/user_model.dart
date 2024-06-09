@@ -4,20 +4,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:startup_saathi/features/domain/entities/user_entity.dart';
 
 class UserModel extends UserEntity {
-  const UserModel({
-    super.uid,
-    super.email,
-    super.phoneNumber,
-    super.profileUrl,
-    super.firstName,
-    super.lastName,
-    super.college,
-    super.city,
-    super.skills,
-    super.lookingFor,
-    super.whoYouAre,
-    super.imageFile,
-  });
+  const UserModel(
+      {super.uid,
+      super.email,
+      super.phoneNumber,
+      super.profileUrl,
+      super.firstName,
+      super.lastName,
+      super.college,
+      super.city,
+      super.skills,
+      super.lookingFor,
+      super.whoYouAre,
+      super.imageFile,
+      super.bio,
+      super.businessStage,
+      super.companySector});
 
   static UserModel fromSnapshot(DocumentSnapshot snap) {
     UserModel user = UserModel(
@@ -32,6 +34,9 @@ class UserModel extends UserEntity {
       lookingFor: snap['lookingFor'],
       whoYouAre: snap['whoYouAre'],
       skills: List<String>.from(snap['skills'] ?? []),
+      bio: snap['bio'],
+      companySector: snap['companySector'],
+      businessStage: snap['businessStage'],
     );
     return user;
   }
@@ -49,6 +54,9 @@ class UserModel extends UserEntity {
       'lookingFor': lookingFor,
       'whoYouAre': whoYouAre,
       'skills': skills,
+      'bio': bio,
+      'businessStage': businessStage,
+      'companySector': companySector,
     };
   }
 
@@ -66,6 +74,9 @@ class UserModel extends UserEntity {
     String? whoYouAre,
     List<String>? skills,
     File? imageFile,
+    String? bio,
+    String? companySector,
+    String? businessStage,
   }) {
     return UserModel(
       uid: uid ?? this.uid,
@@ -80,6 +91,9 @@ class UserModel extends UserEntity {
       whoYouAre: whoYouAre ?? this.whoYouAre,
       skills: skills ?? this.skills,
       imageFile: imageFile ?? this.imageFile,
+      bio: bio ?? this.bio,
+      companySector: companySector ?? this.companySector,
+      businessStage: businessStage ?? this.businessStage,
     );
   }
 
@@ -97,6 +111,9 @@ class UserModel extends UserEntity {
       whoYouAre: userEntity.whoYouAre,
       skills: userEntity.skills,
       imageFile: userEntity.imageFile,
+      businessStage: userEntity.businessStage,
+      bio: userEntity.bio,
+      companySector: userEntity.companySector,
     );
 
     return userModel;

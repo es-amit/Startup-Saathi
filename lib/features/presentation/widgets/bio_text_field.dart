@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:startup_saathi/core/strings/app_strings.dart';
+import 'package:startup_saathi/core/constants/app_strings.dart';
 
 class BioTextField extends StatelessWidget {
-  const BioTextField({super.key});
+  final TextEditingController controller;
+  const BioTextField({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
-    return const TextField(
+    return TextField(
       maxLines: 7,
       maxLength: 140,
-      decoration: InputDecoration(
+      controller: controller,
+      decoration: const InputDecoration(
         border: OutlineInputBorder(),
         hintText: AppStrings.enterYourBioHere,
       ),

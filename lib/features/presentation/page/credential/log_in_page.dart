@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:startup_saathi/core/constants.dart';
+import 'package:startup_saathi/core/constants/constants.dart';
 import 'package:startup_saathi/core/loading/loading_screen.dart';
-import 'package:startup_saathi/core/strings/app_strings.dart';
+import 'package:startup_saathi/core/constants/app_strings.dart';
 import 'package:startup_saathi/core/theme/app_pallete.dart';
 import 'package:startup_saathi/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:startup_saathi/features/presentation/cubit/credential/credential_cubit.dart';

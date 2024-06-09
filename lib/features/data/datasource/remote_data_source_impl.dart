@@ -1,12 +1,11 @@
 import 'dart:developer';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
-import 'package:startup_saathi/core/constants.dart';
+import 'package:startup_saathi/core/constants/constants.dart';
 import 'package:startup_saathi/features/data/datasource/errors/firebase_error_handler.dart';
 import 'package:startup_saathi/features/data/datasource/remote_data_source.dart';
 import 'package:startup_saathi/features/data/model/user_model.dart';

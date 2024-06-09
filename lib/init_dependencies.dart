@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:startup_saathi/core/cubit/internet_cubit.dart';
 import 'package:startup_saathi/features/data/datasource/remote_data_source.dart';
 import 'package:startup_saathi/features/data/datasource/remote_data_source_impl.dart';
 import 'package:startup_saathi/features/data/repository/firebase_repository_impl.dart';
@@ -29,6 +31,13 @@ Future<void> init() async {
       signOutUseCase: serviceLocator.call(),
       signInUseCase: serviceLocator.call(),
       getCurrentUidUseCase: serviceLocator.call(),
+      internetCubit: serviceLocator.call(),
+    ),
+  );
+
+  serviceLocator.registerFactory(
+    () => InternetCubit(
+      internetConnection: serviceLocator.call(),
     ),
   );
   serviceLocator.registerFactory(
@@ -96,8 +105,10 @@ Future<void> init() async {
   final firebaseFirestore = FirebaseFirestore.instance;
   final firebaseAuth = FirebaseAuth.instance;
   final firebaseStorage = FirebaseStorage.instance;
+  final connectionChecker = InternetConnection.createInstance();
 
   serviceLocator.registerLazySingleton(() => firebaseFirestore);
   serviceLocator.registerLazySingleton(() => firebaseAuth);
   serviceLocator.registerLazySingleton(() => firebaseStorage);
+  serviceLocator.registerLazySingleton(() => connectionChecker);
 }

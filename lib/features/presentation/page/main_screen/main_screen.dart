@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:startup_saathi/core/animation/data_not_found_animation_view.dart';
 import 'package:startup_saathi/core/animation/loading_animation_view.dart';
-import 'package:startup_saathi/core/constants.dart';
+import 'package:startup_saathi/core/constants/constants.dart';
 import 'package:startup_saathi/core/dialog/log_out_dialog.dart';
 import 'package:startup_saathi/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:startup_saathi/features/presentation/cubit/user/get_single_user/get_single_user_cubit.dart';

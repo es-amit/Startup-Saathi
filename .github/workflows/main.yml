@@ -3,7 +3,7 @@ name: "Build & Release"
 on:
   push:
     branches:
-      - Clean-Architecture
+      # - Clean-Architecture
 
 jobs:
   build_android:

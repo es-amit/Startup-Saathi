@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
         builder: (context, allUserState) {
           if (allUserState is GetAllUserLoadingState) {
             return ListView.builder(
-              itemCount: 10,
+              itemCount: 5,
               itemBuilder: ((context, index) {
                 return const ShimmerUserCard();
               }),

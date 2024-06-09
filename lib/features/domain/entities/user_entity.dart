@@ -14,6 +14,9 @@ class UserEntity extends Equatable {
   final String? lookingFor;
   final String? whoYouAre;
   final List<String>? skills;
+  final String? bio;
+  final String? companySector;
+  final String? businessStage;
 
   // will going to store in storage
   final File? imageFile;
@@ -31,6 +34,9 @@ class UserEntity extends Equatable {
     this.lookingFor,
     this.whoYouAre,
     List<String>? skills,
+    this.bio,
+    this.businessStage,
+    this.companySector,
   }) : skills = skills ?? const [];
 
   UserEntity copyWith({
@@ -46,6 +52,9 @@ class UserEntity extends Equatable {
     String? whoYouAre,
     List<String>? skills,
     File? imageFile,
+    String? bio,
+    String? companySector,
+    String? businessStage,
   }) {
     return UserEntity(
       uid: uid ?? this.uid,
@@ -60,6 +69,9 @@ class UserEntity extends Equatable {
       whoYouAre: whoYouAre ?? this.whoYouAre,
       skills: skills ?? this.skills,
       imageFile: imageFile ?? this.imageFile,
+      bio: bio ?? this.bio,
+      companySector: companySector ?? this.companySector,
+      businessStage: businessStage ?? this.businessStage,
     );
   }
 
@@ -77,5 +89,8 @@ class UserEntity extends Equatable {
         lookingFor,
         whoYouAre,
         skills,
+        bio,
+        businessStage,
+        companySector,
       ];
 }
