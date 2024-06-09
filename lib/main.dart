@@ -1,54 +1,66 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:startup_saathi/core/constants/app_strings.dart';
+import 'package:startup_saathi/core/constants/constants.dart';
+import 'package:startup_saathi/core/cubit/internet_cubit.dart';
+import 'package:startup_saathi/core/theme/theme.dart';
+import 'package:startup_saathi/features/presentation/cubit/auth/auth_cubit.dart';
+import 'package:startup_saathi/features/presentation/cubit/credential/credential_cubit.dart';
+import 'package:startup_saathi/features/presentation/cubit/user/get_all_users/get_all_users_cubit.dart';
+import 'package:startup_saathi/features/presentation/cubit/user/get_single_user/get_single_user_cubit.dart';
 import 'package:startup_saathi/firebase_options.dart';
-import 'package:startup_saathi/src/components/cubit/internet_cubit.dart';
-import 'package:startup_saathi/src/components/theme/theme.dart';
-import 'package:startup_saathi/src/features/auth/data/datasources/auth_remote_data_source_impl.dart';
-import 'package:startup_saathi/src/features/auth/data/repositories/auth_reporitory_impl.dart';
-import 'package:startup_saathi/src/features/auth/domain/use_cases/register_use_case.dart';
-import 'package:startup_saathi/src/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:startup_saathi/src/features/auth/presentation/views/register_page.dart';
+import 'package:startup_saathi/init_dependencies.dart' as di;
+import 'package:startup_saathi/core/routes/routes.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+Future<void> main() async {
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  await di.init();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  runApp(
+    const MyApp(),
+  );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    initialization();
+  }
+
+  void initialization() async {
+    await Future.delayed(const Duration(milliseconds: 400));
+    FlutterNativeSplash.remove();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<InternetCubit>(
-          create: (_) => InternetCubit(
-            connectionChecker: InternetConnectionChecker(),
-          ),
-        ),
-        BlocProvider(
-          create: (_) => AuthBloc(
-            registerUseCase: RegisterUseCase(
-              AuthRepositoryImpl(
-                AuthRemoteDataSourceImpl(
-                  FirebaseAuth.instance,
-                ),
-              ),
-            ),
-          ),
-        ),
+        BlocProvider(create: (_) => di.serviceLocator<InternetCubit>()),
+        BlocProvider(create: (_) => di.serviceLocator<AuthCubit>()),
+        BlocProvider(create: (_) => di.serviceLocator<CredentialCubit>()),
+        BlocProvider(create: (_) => di.serviceLocator<GetSingleUserCubit>()),
+        BlocProvider(create: (_) => di.serviceLocator<GetAllUsersCubit>()),
       ],
       child: MaterialApp(
-        title: 'Startup Saathi',
-        theme: AppTheme.lightThemeMode,
         debugShowCheckedModeBanner: false,
-        themeMode: ThemeMode.light,
-        home: const RegisterPage(),
+        title: AppStrings.startupSaathi,
+        theme: AppTheme.lightThemeMode,
+        onGenerateRoute: OnGenerateRoute.route,
+        initialRoute: PageConst.initialPage,
       ),
     );
   }
